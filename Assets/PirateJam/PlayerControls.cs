@@ -89,6 +89,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleAoE"",
+                    ""type"": ""Button"",
+                    ""id"": ""6be8428f-b2e5-499b-be2f-db1d30641124"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleCatalyst"",
+                    ""type"": ""Button"",
+                    ""id"": ""26264e04-d8ab-4959-aa9d-f482bd280a94"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -353,6 +371,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Adjust"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f20298bc-4839-426a-8e73-aeba4d6a3ea6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ToggleAoE"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f62e9a2-8314-42d8-910b-ed3fe3de1556"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ToggleCatalyst"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -947,6 +987,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Mix = m_Player.FindAction("Mix", throwIfNotFound: true);
         m_Player_Discard = m_Player.FindAction("Discard", throwIfNotFound: true);
         m_Player_Adjust = m_Player.FindAction("Adjust", throwIfNotFound: true);
+        m_Player_ToggleAoE = m_Player.FindAction("ToggleAoE", throwIfNotFound: true);
+        m_Player_ToggleCatalyst = m_Player.FindAction("ToggleCatalyst", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1027,6 +1069,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Mix;
     private readonly InputAction m_Player_Discard;
     private readonly InputAction m_Player_Adjust;
+    private readonly InputAction m_Player_ToggleAoE;
+    private readonly InputAction m_Player_ToggleCatalyst;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1038,6 +1082,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Mix => m_Wrapper.m_Player_Mix;
         public InputAction @Discard => m_Wrapper.m_Player_Discard;
         public InputAction @Adjust => m_Wrapper.m_Player_Adjust;
+        public InputAction @ToggleAoE => m_Wrapper.m_Player_ToggleAoE;
+        public InputAction @ToggleCatalyst => m_Wrapper.m_Player_ToggleCatalyst;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1068,6 +1114,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Adjust.started += instance.OnAdjust;
             @Adjust.performed += instance.OnAdjust;
             @Adjust.canceled += instance.OnAdjust;
+            @ToggleAoE.started += instance.OnToggleAoE;
+            @ToggleAoE.performed += instance.OnToggleAoE;
+            @ToggleAoE.canceled += instance.OnToggleAoE;
+            @ToggleCatalyst.started += instance.OnToggleCatalyst;
+            @ToggleCatalyst.performed += instance.OnToggleCatalyst;
+            @ToggleCatalyst.canceled += instance.OnToggleCatalyst;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1093,6 +1145,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Adjust.started -= instance.OnAdjust;
             @Adjust.performed -= instance.OnAdjust;
             @Adjust.canceled -= instance.OnAdjust;
+            @ToggleAoE.started -= instance.OnToggleAoE;
+            @ToggleAoE.performed -= instance.OnToggleAoE;
+            @ToggleAoE.canceled -= instance.OnToggleAoE;
+            @ToggleCatalyst.started -= instance.OnToggleCatalyst;
+            @ToggleCatalyst.performed -= instance.OnToggleCatalyst;
+            @ToggleCatalyst.canceled -= instance.OnToggleCatalyst;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1282,6 +1340,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMix(InputAction.CallbackContext context);
         void OnDiscard(InputAction.CallbackContext context);
         void OnAdjust(InputAction.CallbackContext context);
+        void OnToggleAoE(InputAction.CallbackContext context);
+        void OnToggleCatalyst(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
