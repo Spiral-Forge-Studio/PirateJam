@@ -8,9 +8,13 @@ public class PlayerController : MonoBehaviour
 {
     PlayerControls playerControls;
     private Movement movement;
+
+    [Header("Property and Effect Adjusting")]
     public PotionManager potionHandler;
-    public float mouseScrollY;
     public float adjustmentValue;
+    public Property.EProperty activePropertyToAdjust;
+
+    private float mouseScrollY;
 
 
     private void Awake()
@@ -27,17 +31,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mouseScrollY > 0)
-        {
-            adjustmentValue += 1;
-            Debug.Log("Scrolled Up");
-        }        
-        if (mouseScrollY < 0)
-        {
-            adjustmentValue -= 1;
-            Debug.Log("Scrolled Down");
-        }
-
+        potionHandler.AdjustPropertyByStep(mouseScrollY);
     }
 
     #region -- Enable/Disable -- 
@@ -50,13 +44,44 @@ public class PlayerController : MonoBehaviour
     {
         playerControls.Disable();
     }
+    #endregion
+
+    public void ToggleAoEProperty(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (potionHandler.activePropertyForAdjustment == Property.EProperty.AoE)
+            {
+                potionHandler.activePropertyForAdjustment = Property.EProperty.None;
+            }
+            else
+            {
+                potionHandler.activePropertyForAdjustment = Property.EProperty.AoE;
+            }
+        }
+    }
+
+    public void ToggleCatalystProperty(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (potionHandler.activePropertyForAdjustment == Property.EProperty.Catalyst)
+            {
+                potionHandler.activePropertyForAdjustment = Property.EProperty.None;
+            }
+            else
+            {
+                potionHandler.activePropertyForAdjustment = Property.EProperty.Catalyst;
+            }
+        }
+    }
 
     public void ThrowPotion(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            potionHandler.ThrowPotion();
+            potionHandler.ThrowPotionObject();
         }
     }
-    #endregion
+    
 }
