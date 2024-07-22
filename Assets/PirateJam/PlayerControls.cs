@@ -107,6 +107,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QueueBurstEffect"",
+                    ""type"": ""Button"",
+                    ""id"": ""1115b09b-eb84-4b23-aa3b-085bc09717d9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QueueQuickenEffect"",
+                    ""type"": ""Button"",
+                    ""id"": ""5b5b6c6d-5979-440b-8606-bcb667e89fba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QueueShrinkEffect"",
+                    ""type"": ""Button"",
+                    ""id"": ""416efc89-b44a-4248-8d75-5b66880aeba2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -393,6 +420,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""ToggleCatalyst"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c5877e4-259f-415c-b649-fe47fef9cb2e"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""QueueBurstEffect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59551296-f029-4c9b-9597-6bd5839ab015"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""QueueQuickenEffect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dff59a9e-b168-40b4-86f8-a4aea4b90944"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""QueueShrinkEffect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -989,6 +1049,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Adjust = m_Player.FindAction("Adjust", throwIfNotFound: true);
         m_Player_ToggleAoE = m_Player.FindAction("ToggleAoE", throwIfNotFound: true);
         m_Player_ToggleCatalyst = m_Player.FindAction("ToggleCatalyst", throwIfNotFound: true);
+        m_Player_QueueBurstEffect = m_Player.FindAction("QueueBurstEffect", throwIfNotFound: true);
+        m_Player_QueueQuickenEffect = m_Player.FindAction("QueueQuickenEffect", throwIfNotFound: true);
+        m_Player_QueueShrinkEffect = m_Player.FindAction("QueueShrinkEffect", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1071,6 +1134,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Adjust;
     private readonly InputAction m_Player_ToggleAoE;
     private readonly InputAction m_Player_ToggleCatalyst;
+    private readonly InputAction m_Player_QueueBurstEffect;
+    private readonly InputAction m_Player_QueueQuickenEffect;
+    private readonly InputAction m_Player_QueueShrinkEffect;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1084,6 +1150,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Adjust => m_Wrapper.m_Player_Adjust;
         public InputAction @ToggleAoE => m_Wrapper.m_Player_ToggleAoE;
         public InputAction @ToggleCatalyst => m_Wrapper.m_Player_ToggleCatalyst;
+        public InputAction @QueueBurstEffect => m_Wrapper.m_Player_QueueBurstEffect;
+        public InputAction @QueueQuickenEffect => m_Wrapper.m_Player_QueueQuickenEffect;
+        public InputAction @QueueShrinkEffect => m_Wrapper.m_Player_QueueShrinkEffect;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1120,6 +1189,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleCatalyst.started += instance.OnToggleCatalyst;
             @ToggleCatalyst.performed += instance.OnToggleCatalyst;
             @ToggleCatalyst.canceled += instance.OnToggleCatalyst;
+            @QueueBurstEffect.started += instance.OnQueueBurstEffect;
+            @QueueBurstEffect.performed += instance.OnQueueBurstEffect;
+            @QueueBurstEffect.canceled += instance.OnQueueBurstEffect;
+            @QueueQuickenEffect.started += instance.OnQueueQuickenEffect;
+            @QueueQuickenEffect.performed += instance.OnQueueQuickenEffect;
+            @QueueQuickenEffect.canceled += instance.OnQueueQuickenEffect;
+            @QueueShrinkEffect.started += instance.OnQueueShrinkEffect;
+            @QueueShrinkEffect.performed += instance.OnQueueShrinkEffect;
+            @QueueShrinkEffect.canceled += instance.OnQueueShrinkEffect;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1151,6 +1229,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleCatalyst.started -= instance.OnToggleCatalyst;
             @ToggleCatalyst.performed -= instance.OnToggleCatalyst;
             @ToggleCatalyst.canceled -= instance.OnToggleCatalyst;
+            @QueueBurstEffect.started -= instance.OnQueueBurstEffect;
+            @QueueBurstEffect.performed -= instance.OnQueueBurstEffect;
+            @QueueBurstEffect.canceled -= instance.OnQueueBurstEffect;
+            @QueueQuickenEffect.started -= instance.OnQueueQuickenEffect;
+            @QueueQuickenEffect.performed -= instance.OnQueueQuickenEffect;
+            @QueueQuickenEffect.canceled -= instance.OnQueueQuickenEffect;
+            @QueueShrinkEffect.started -= instance.OnQueueShrinkEffect;
+            @QueueShrinkEffect.performed -= instance.OnQueueShrinkEffect;
+            @QueueShrinkEffect.canceled -= instance.OnQueueShrinkEffect;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1342,6 +1429,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnAdjust(InputAction.CallbackContext context);
         void OnToggleAoE(InputAction.CallbackContext context);
         void OnToggleCatalyst(InputAction.CallbackContext context);
+        void OnQueueBurstEffect(InputAction.CallbackContext context);
+        void OnQueueQuickenEffect(InputAction.CallbackContext context);
+        void OnQueueShrinkEffect(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

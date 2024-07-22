@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public class Effect
 {
@@ -17,6 +17,7 @@ public class Effect
         Burst,
         Quicken,
         Shrink,
+        Empty
     }
 
     public EEffect effectEnum;
@@ -48,13 +49,16 @@ public class Property
 
 public class PotionManager : MonoBehaviour
 {
-
-    public GameObject potionPrefab;
+    [Header("Potion Gauge Info")]
     public int maxPotionSlots;
-    public Vector2 throwForce;
     public List<Effect> activeEffectsList = new List<Effect>();
     public Dictionary<Property.EProperty,Property> propertyDict = new Dictionary<Property.EProperty, Property>();
     public Property.EProperty activePropertyForAdjustment;
+    public UnityEvent OnPotionEffectsUpdated;
+
+    [Header("Potion Throwing Related")]
+    public Vector2 throwForce;
+    public GameObject potionPrefab;
 
     [Header("Potion Effect Parameters")]
     public float burstBaseMult;
@@ -71,6 +75,11 @@ public class PotionManager : MonoBehaviour
     public float AoEPercentage;
     public float CatalystPercentage;
 
+
+    private void Awake()
+    {
+        OnPotionEffectsUpdated.AddListener(FindObjectOfType<UIMainScript>().UpdatePotionGauge);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -115,6 +124,8 @@ public class PotionManager : MonoBehaviour
         {
             activeEffectsList.RemoveAt(0);
         }
+
+        OnPotionEffectsUpdated?.Invoke();
     }
 
     public void AdjustPropertyByStep(float scrollStep)
@@ -133,6 +144,13 @@ public class PotionManager : MonoBehaviour
     public void FlushPotionGauge()
     {
         activeEffectsList.Clear();
+
+        for (int i = 0; i < maxPotionSlots; ++i)
+        {
+            activeEffectsList.Add(new Effect(Effect.EEffect.Empty, 0));
+        }
+
+        OnPotionEffectsUpdated?.Invoke();
     }
 
 

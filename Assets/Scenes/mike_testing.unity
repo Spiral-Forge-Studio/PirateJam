@@ -1553,7 +1553,19 @@ MonoBehaviour:
     m_ActionId: 58813ba8-e938-47f9-932c-35404d6c0c7b
     m_ActionName: Player/Mix[/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1631734467}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: DiscardPotions
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9ec6d7ad-afa3-4bee-81ed-0e01ef77d7a9
     m_ActionName: Player/Discard[/Keyboard/x]
   - m_PersistentCalls:
@@ -1632,6 +1644,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 26264e04-d8ab-4959-aa9d-f482bd280a94
     m_ActionName: Player/ToggleCatalyst[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1631734467}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: QueueBurstEffect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1115b09b-eb84-4b23-aa3b-085bc09717d9
+    m_ActionName: Player/QueueBurstEffect[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1631734467}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: QueueQuickenEffect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5b5b6c6d-5979-440b-8606-bcb667e89fba
+    m_ActionName: Player/QueueQuickenEffect[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1631734467}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: QueueShrinkEffect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 416efc89-b44a-4248-8d75-5b66880aeba2
+    m_ActionName: Player/QueueShrinkEffect[/Keyboard/3]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -2461,10 +2521,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be7087427c7c7c640b185b2f186b834c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potionPrefab: {fileID: 8730198506062690877, guid: 9366beb655398d64bb80eea465896b41, type: 3}
-  maxPotionSlots: 0
-  throwForce: {x: 4, y: 15}
+  maxPotionSlots: 3
   activePropertyForAdjustment: 2
+  OnPotionEffectsUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  throwForce: {x: 4, y: 15}
+  potionPrefab: {fileID: 8730198506062690877, guid: 9366beb655398d64bb80eea465896b41, type: 3}
   burstBaseMult: 1
   quickenBaseMult: 1
   shrinkBaseMult: 1
@@ -2980,9 +3043,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionManager: {fileID: 0}
+  potionSlots:
+  - {fileID: 1540706500}
+  - {fileID: 451415345}
+  - {fileID: 2085361105}
   AoEActiveSquare: {fileID: 1165332539}
   AoEGauge: {fileID: 1902977575}
-  CatalystctiveSquare: {fileID: 1022404329}
+  CatalystActiveSquare: {fileID: 1022404329}
   CatalystGauge: {fileID: 1432433796}
 --- !u!1 &1631734462
 GameObject:
@@ -3107,7 +3174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479dd8f3795822e4faa031a3716226aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potionHandler: {fileID: 1173760466}
+  potionManager: {fileID: 0}
   adjustmentValue: 0
   activePropertyToAdjust: 0
 --- !u!114 &1631734468

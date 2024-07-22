@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Movement movement;
 
     [Header("Property and Effect Adjusting")]
-    public PotionManager potionHandler;
+    public PotionManager potionManager;
     public float adjustmentValue;
     public Property.EProperty activePropertyToAdjust;
 
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        potionManager = FindObjectOfType<PotionManager>();
         playerControls = new PlayerControls();
 
         playerControls.Player.Adjust.performed += x => mouseScrollY = x.ReadValue<float>();
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        potionHandler.AdjustPropertyByStep(mouseScrollY);
+        potionManager.AdjustPropertyByStep(mouseScrollY);
     }
 
     #region -- Enable/Disable -- 
@@ -46,17 +48,41 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Potion Effects
+    public void QueueBurstEffect(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            potionManager.AddEffect(Effect.EEffect.Burst);
+        }
+    }
+    public void QueueQuickenEffect(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            potionManager.AddEffect(Effect.EEffect.Quicken);
+        }
+    }
+    public void QueueShrinkEffect(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            potionManager.AddEffect(Effect.EEffect.Shrink);
+        }
+    }
+
+    #endregion
     public void ToggleAoEProperty(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            if (potionHandler.activePropertyForAdjustment == Property.EProperty.AoE)
+            if (potionManager.activePropertyForAdjustment == Property.EProperty.AoE)
             {
-                potionHandler.activePropertyForAdjustment = Property.EProperty.None;
+                potionManager.activePropertyForAdjustment = Property.EProperty.None;
             }
             else
             {
-                potionHandler.activePropertyForAdjustment = Property.EProperty.AoE;
+                potionManager.activePropertyForAdjustment = Property.EProperty.AoE;
             }
         }
     }
@@ -65,13 +91,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            if (potionHandler.activePropertyForAdjustment == Property.EProperty.Catalyst)
+            if (potionManager.activePropertyForAdjustment == Property.EProperty.Catalyst)
             {
-                potionHandler.activePropertyForAdjustment = Property.EProperty.None;
+                potionManager.activePropertyForAdjustment = Property.EProperty.None;
             }
             else
             {
-                potionHandler.activePropertyForAdjustment = Property.EProperty.Catalyst;
+                potionManager.activePropertyForAdjustment = Property.EProperty.Catalyst;
             }
         }
     }
@@ -80,7 +106,15 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            potionHandler.ThrowPotionObject();
+            potionManager.ThrowPotionObject();
+        }
+    }
+
+    public void DiscardPotions(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            potionManager.FlushPotionGauge();
         }
     }
     

@@ -8,11 +8,12 @@ public class UIMainScript : MonoBehaviour
 
     [Header("Alchemy System References")]
     public PotionManager potionManager;
+    public Image[] potionSlots;
 
-    [Header("UI Child References")]
+    [Header("Property Gauge References")]
     public GameObject AoEActiveSquare;
     public Image AoEGauge;
-    public GameObject CatalystctiveSquare;
+    public GameObject CatalystActiveSquare;
     public Image CatalystGauge;
 
     // Start is called before the first frame update
@@ -20,7 +21,7 @@ public class UIMainScript : MonoBehaviour
     {
         potionManager = FindObjectOfType<PotionManager>();
         AoEActiveSquare.SetActive(false);
-        CatalystctiveSquare.SetActive(false);
+        CatalystActiveSquare.SetActive(false);
     }
 
     // Update is called once per frame
@@ -30,22 +31,45 @@ public class UIMainScript : MonoBehaviour
         UpdatePropertyGauge();
     }
 
+    public void UpdatePotionGauge()
+    {
+        for (int i = 0; i < potionManager.activeEffectsList.Count; i++)
+        {
+            if (potionManager.activeEffectsList[i].effectEnum == Effect.EEffect.Burst)
+            {
+                potionSlots[i].color = Color.red;
+            }
+            else if (potionManager.activeEffectsList[i].effectEnum == Effect.EEffect.Quicken)
+            {
+                potionSlots[i].color = Color.blue;
+            }
+            else if (potionManager.activeEffectsList[i].effectEnum == Effect.EEffect.Shrink)
+            {
+                potionSlots[i].color = Color.green;
+            }
+            else
+            {
+                potionSlots[i].color = Color.gray;
+            }
+        }
+    }
+
     public void UpdatePropertyActiveSquare()
     {
         if (potionManager.activePropertyForAdjustment == Property.EProperty.AoE)
         {
             AoEActiveSquare.SetActive(true);
-            CatalystctiveSquare.SetActive(false);
+            CatalystActiveSquare.SetActive(false);
         }
         else if (potionManager.activePropertyForAdjustment == Property.EProperty.Catalyst)
         {
             AoEActiveSquare.SetActive(false);
-            CatalystctiveSquare.SetActive(true);
+            CatalystActiveSquare.SetActive(true);
         }
         else
         {
             AoEActiveSquare.SetActive(false);
-            CatalystctiveSquare.SetActive(false);
+            CatalystActiveSquare.SetActive(false);
         }
     }
 
