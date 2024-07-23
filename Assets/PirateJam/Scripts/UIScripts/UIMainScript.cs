@@ -49,7 +49,7 @@ public class UIMainScript : MonoBehaviour
             }
             else
             {
-                potionSlots[i].color = Color.gray;
+                potionSlots[i].color = new Color(0.28f, 0.28f, 0.28f);
             }
         }
     }

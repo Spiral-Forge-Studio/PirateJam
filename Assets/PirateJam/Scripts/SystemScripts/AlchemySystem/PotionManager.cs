@@ -31,7 +31,7 @@ public class Property
         this.propertyEnum = propertyEnum;
         this.baseValue = baseValue;
         this.stepPercentage = stepPercent;
-        value = baseValue/2;
+        value = baseValue;
     }
 
     public enum EProperty
@@ -85,6 +85,7 @@ public class PotionManager : MonoBehaviour
     {
         propertyDict.Add(Property.EProperty.AoE, new Property(Property.EProperty.AoE, baseAreaOfEffect, stepPercent_areaOfEffect));
         propertyDict.Add(Property.EProperty.Catalyst, new Property(Property.EProperty.Catalyst, baseCatalyst, stepPercent_catalyst));
+        FlushPotionGauge();
     }
 
     // Update is called once per frame
@@ -163,6 +164,6 @@ public class PotionManager : MonoBehaviour
 
         potion.InitializePotion(targetPosition, activeEffectsList, propertyDict);
 
-        FlushPotionGauge();
+        //FlushPotionGauge();
     }
 }

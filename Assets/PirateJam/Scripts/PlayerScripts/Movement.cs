@@ -19,6 +19,7 @@ public class Movement : MonoBehaviour
     public float flipAccelleration;
     private float horizontal;
     private bool isFacingRight = true;
+    public bool hittingWall = false;
 
     [Header("Vertical Movement")]
     public float jumpingPower;
@@ -108,12 +109,12 @@ public class Movement : MonoBehaviour
             {
                 if (Mathf.Sign(rb.velocity.x) == Mathf.Sign(horizontal))
                 {
-                    rb.velocity = new Vector3(Mathf.MoveTowards(
+                    rb.velocity = new Vector3(Mathf.SmoothStep(
                         rb.velocity.x, maxMoveSpeed * horizontal, accelleration * Time.fixedDeltaTime), rb.velocity.y);
                 }
                 else
                 {
-                    rb.velocity = new Vector3(Mathf.MoveTowards(
+                    rb.velocity = new Vector3(Mathf.SmoothStep(
                         rb.velocity.x, maxMoveSpeed * horizontal, flipAccelleration * Time.fixedDeltaTime), rb.velocity.y);
                 }
             }
@@ -122,10 +123,15 @@ public class Movement : MonoBehaviour
                 rb.velocity = new Vector2(horizontal * maxMoveSpeed, rb.velocity.y);
             }
         }
-        else
+        else if (hittingWall)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+        else if (horizontal != 0)
         {
             rb.velocity = new Vector2(horizontal * maxMoveSpeed, rb.velocity.y);
         }
+        //Debug.Log("Velocity: " + rb.velocity);
     }
 
     public void AdjustGravity()
