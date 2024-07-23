@@ -35,17 +35,21 @@ public class EffectExplosion : MonoBehaviour
                 Debug.DrawLine(transform.position, hitObjectRB.position, Color.red, 2f);
                 //Debug.Log("raycast hit: " + ray.collider.gameObject.name);
 
-                if (distanceVec.magnitude > 0 && !ray.collider.gameObject.CompareTag("Ground"))
+                //if (distanceVec.magnitude > 0 && !ray.collider.gameObject.CompareTag("Ground"))
+                if (ray.collider != null)
                 {
-                    //float explosionForce = ExplosionForceMulti/(distanceVec.magnitude);
-                    float explosionForce = ExplosionForceMulti;
-                    hitObjectRB.AddForce(distanceVec.normalized*explosionForce);
+                    if (distanceVec.magnitude > 0 && !ray.collider.gameObject.CompareTag("Ground"))
+                    {
+                        //float explosionForce = ExplosionForceMulti/(distanceVec.magnitude);
+                        float explosionForce = ExplosionForceMulti;
+                        hitObjectRB.AddForce(distanceVec.normalized * explosionForce);
+                    }
                 }
             }
         }
         //Debug.Break();
 
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject, 0.05f);
     }
 
     private void OnDrawGizmos()

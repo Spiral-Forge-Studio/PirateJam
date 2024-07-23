@@ -17,16 +17,18 @@ public class Potion : MonoBehaviour
 
     private Rigidbody2D rb;
     private GameObject effect;
+    private Coroutine catalystRoutine;
 
     // Trajectory Variables and References
     private Vector3 target;
     public Vector2 maxVelocity;  // Adjust as needed for the desired arc
     public float launchAngle = 60f;  // Adjust as needed for the desired arc
-    public float launchForce;
+    public float baseCatalystTime;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        catalystRoutine = null;
     }
 
     private void FixedUpdate()
@@ -62,13 +64,18 @@ public class Potion : MonoBehaviour
         {
             areaOfEffect = 1 + _propertyDict[Property.EProperty.AoE].value/100;
         }
-        else if (_propertyDict.ContainsKey(Property.EProperty.Catalyst))
+        if (_propertyDict.ContainsKey(Property.EProperty.Catalyst))
         {
-            catalyst = 1 + _propertyDict[Property.EProperty.Catalyst].value/100;
+            catalyst = 1+_propertyDict[Property.EProperty.Catalyst].value/100;
         }
 
         // Calculate the initial velocity required to reach the target
         CalculateLaunchVelocity();
+        
+        if (catalystRoutine == null)
+        {
+            catalystRoutine = StartCoroutine(CatalystTimerRoutine());
+        }
     }
 
     private void CalculateLaunchVelocity()
@@ -116,6 +123,15 @@ public class Potion : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log("hit: " + collision.gameObject.name);
+
+
+    }
+
+    private IEnumerator CatalystTimerRoutine()
+    {
+        float totalDelay = baseCatalystTime * catalyst;
+        Debug.Log("delay: " + totalDelay);
+        yield return new WaitForSeconds(totalDelay);
 
         GameObject instantiatedExplosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
 
