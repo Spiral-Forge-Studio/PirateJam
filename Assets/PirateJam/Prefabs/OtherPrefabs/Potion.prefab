@@ -164,4 +164,5 @@ MonoBehaviour:
   explosionPrefab: {fileID: 3104621004120784727, guid: dc8da04c74d2d11428bc47b84335b0a3, type: 3}
   maxVelocity: {x: 7, y: 7}
   launchAngle: 60
+  launchSpeed: 20
   baseCatalystTime: 1

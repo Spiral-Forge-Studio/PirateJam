@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Potion : MonoBehaviour
 {
-
+    [Header("Potion Settings")]
     public GameObject explosionPrefab;
+    public float baseCatalystTime;
     private List<Effect> effectsList;
 
     private float areaOfEffect;
@@ -16,14 +17,16 @@ public class Potion : MonoBehaviour
     private float shrinkMultiplier;
 
     private Rigidbody2D rb;
+
     private GameObject effect;
     private Coroutine catalystRoutine;
 
     // Trajectory Variables and References
-    private Vector3 target;
+    [Header("Trajectory Settings")]
+    private Vector3 launchDir;
     public Vector2 maxVelocity;  // Adjust as needed for the desired arc
-    public float launchAngle = 60f;  // Adjust as needed for the desired arc
-    public float baseCatalystTime;
+    //public float launchAngle = 60f;  // Adjust as needed for the desired arc
+    private float launchSpeed;  // Adjust as needed for the desired arc
 
     private void Awake()
     {
@@ -31,15 +34,12 @@ public class Potion : MonoBehaviour
         catalystRoutine = null;
     }
 
-    private void FixedUpdate()
+    public void InitializePotion(Vector3 launchDir, float _launchSpeed, 
+        List<Effect> _effectsList, 
+        Dictionary<Property.EProperty, Property> _propertyDict)
     {
-        // No need to manually update the position, physics will handle it
-    }
-
-    public void InitializePotion(Vector3 _target, List<Effect> _effectsList, Dictionary<Property.EProperty, Property> _propertyDict)
-    {
-
-        target = _target;
+        launchSpeed = _launchSpeed;
+        this.launchDir = launchDir;
         effectsList = _effectsList;
 
         // handle effects
@@ -78,6 +78,7 @@ public class Potion : MonoBehaviour
         }
     }
 
+    /*
     private void CalculateLaunchVelocity()
     {
         Vector3 startPosition = transform.position;
@@ -118,6 +119,12 @@ public class Potion : MonoBehaviour
 
         //Debug.Log("resulting velocity: " + velocity);
         rb.velocity = velocity;
+    }
+    */
+
+    private void CalculateLaunchVelocity()
+    {
+        rb.velocity = launchDir * launchSpeed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

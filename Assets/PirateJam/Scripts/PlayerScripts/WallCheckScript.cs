@@ -5,12 +5,22 @@ using UnityEngine;
 public class WallCheckScript : MonoBehaviour
 {
     public Movement movement;
+    public bool wallCheckRight;
+    public bool wallCheckLeft;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            movement.hittingWall = true;
+            if (wallCheckRight)
+            {
+                movement.hittingWallRight = true;
+            }
+            else
+            {
+                movement.hittingWallLeft = true;
+            }
+            
         }
     }
 
@@ -18,7 +28,14 @@ public class WallCheckScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            movement.hittingWall = false;
+            if (wallCheckRight)
+            {
+                movement.hittingWallRight = false;
+            }
+            else
+            {
+                movement.hittingWallLeft = false;
+            }
         }
     }
 }

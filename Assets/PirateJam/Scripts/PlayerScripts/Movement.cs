@@ -19,7 +19,8 @@ public class Movement : MonoBehaviour
     public float flipAccelleration;
     private float horizontal;
     private bool isFacingRight = true;
-    public bool hittingWall = false;
+    public bool hittingWallLeft = false;
+    public bool hittingWallRight = false;
 
     [Header("Vertical Movement")]
     public float jumpingPower;
@@ -33,10 +34,13 @@ public class Movement : MonoBehaviour
     [Header("Jump buffering")]
     public float jumpBufferTime;
     private float jumpBufferCounter;
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
+        hittingWallLeft = false;
+        hittingWallRight = false;
         originalGravityScale = rb.gravityScale;
     }
 
@@ -103,7 +107,18 @@ public class Movement : MonoBehaviour
 
     public void UpdateSpeed()
     {
-        if (IsGrounded() && horizontal != 0)
+        // wall movement
+        if (hittingWallLeft)
+        {
+            rb.velocity = new Vector2(Mathf.Clamp(horizontal*maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
+        }
+        else if (hittingWallRight)
+        {
+            rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, -maxMoveSpeed, 0), rb.velocity.y);
+        }
+
+        // normal ground movement
+        else if (IsGrounded() && horizontal != 0)
         {
             if (rb.velocity.x < maxMoveSpeed)
             {
@@ -123,10 +138,8 @@ public class Movement : MonoBehaviour
                 rb.velocity = new Vector2(horizontal * maxMoveSpeed, rb.velocity.y);
             }
         }
-        else if (hittingWall)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
+
+        // freefall movement
         else if (horizontal != 0)
         {
             rb.velocity = new Vector2(horizontal * maxMoveSpeed, rb.velocity.y);
