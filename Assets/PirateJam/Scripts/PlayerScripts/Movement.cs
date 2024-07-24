@@ -35,10 +35,14 @@ public class Movement : MonoBehaviour
     public float jumpBufferTime;
     private float jumpBufferCounter;
 
+    [Header("[DEBUG, READONLY] Explosion Hit Info")]
+    public bool hitByExplosion;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        hitByExplosion = false;
         hittingWallLeft = false;
         hittingWallRight = false;
         originalGravityScale = rb.gravityScale;
@@ -55,16 +59,14 @@ public class Movement : MonoBehaviour
         {
             coyoteTimecounter -= Time.deltaTime;
         }
-        {
-            
-        }
+
         if (!isFacingRight && horizontal > 0f)
         {
-            //Flip();
+            Flip();
         }
         else if (isFacingRight && horizontal < 0f)
         {
-            //Flip();
+            Flip();
         }
     }
     private void FixedUpdate()
@@ -110,11 +112,26 @@ public class Movement : MonoBehaviour
         // wall movement
         if (hittingWallLeft)
         {
-            rb.velocity = new Vector2(Mathf.Clamp(horizontal*maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
+            if (isFacingRight)
+            {
+                rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, -maxMoveSpeed, 0), rb.velocity.y);
+            }
+            else
+            {
+                rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
+            }
+            
         }
         else if (hittingWallRight)
         {
-            rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, -maxMoveSpeed, 0), rb.velocity.y);
+            if (isFacingRight)
+            {
+                rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, -maxMoveSpeed, 0), rb.velocity.y);
+            }
+            else
+            {
+                rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
+            }
         }
 
         // normal ground movement
@@ -124,13 +141,15 @@ public class Movement : MonoBehaviour
             {
                 if (Mathf.Sign(rb.velocity.x) == Mathf.Sign(horizontal))
                 {
-                    rb.velocity = new Vector3(Mathf.SmoothStep(
-                        rb.velocity.x, maxMoveSpeed * horizontal, accelleration * Time.fixedDeltaTime), rb.velocity.y);
+                    //rb.velocity = new Vector3(Mathf.SmoothStep(
+                    //    rb.velocity.x, maxMoveSpeed * horizontal, accelleration * Time.fixedDeltaTime), rb.velocity.y);
+                    rb.velocity = new Vector3(maxMoveSpeed * horizontal, rb.velocity.y);
                 }
                 else
                 {
-                    rb.velocity = new Vector3(Mathf.SmoothStep(
-                        rb.velocity.x, maxMoveSpeed * horizontal, flipAccelleration * Time.fixedDeltaTime), rb.velocity.y);
+                   // rb.velocity = new Vector3(Mathf.SmoothStep(
+                   //     rb.velocity.x, maxMoveSpeed * horizontal, flipAccelleration * Time.fixedDeltaTime), rb.velocity.y);
+                    rb.velocity = new Vector3(maxMoveSpeed * horizontal, rb.velocity.y);
                 }
             }
             else
@@ -139,8 +158,25 @@ public class Movement : MonoBehaviour
             }
         }
 
+        // hit by explosion movement
+        else if (hitByExplosion)
+        {
+            if (horizontal != 0)
+            {
+                hitByExplosion = false;
+            }
+            else
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+            }
+        }
+
         // freefall movement
-        else if (horizontal != 0)
+        else if (horizontal == 0)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+        else
         {
             rb.velocity = new Vector2(horizontal * maxMoveSpeed, rb.velocity.y);
         }

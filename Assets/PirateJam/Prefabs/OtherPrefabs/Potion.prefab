@@ -99,11 +99,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.01
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0ca2693fdf43ff04eb2af29a69e7ec55, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -113,7 +113,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &1688820894232399673
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -162,7 +162,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 3104621004120784727, guid: dc8da04c74d2d11428bc47b84335b0a3, type: 3}
-  maxVelocity: {x: 7, y: 7}
-  launchAngle: 60
-  launchSpeed: 20
-  baseCatalystTime: 1

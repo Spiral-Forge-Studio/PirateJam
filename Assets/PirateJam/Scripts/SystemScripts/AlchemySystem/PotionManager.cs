@@ -1,17 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public class Effect
 {
-    public Effect(EEffect effectEnum, float value)
+    public Effect(EEffect effectEnum, float percentValue, float duration)
     {
         this.effectEnum = effectEnum;
-        this.value = value;
+        this.percentValue = percentValue;
+        this.duration = duration;
     }
 
     public enum EEffect
@@ -23,7 +20,8 @@ public class Effect
     }
 
     public EEffect effectEnum;
-    public float value;
+    public float percentValue;
+    public float duration;
 }
 
 public class Property
@@ -72,35 +70,39 @@ public class Property
 
 public class PotionManager : MonoBehaviour
 {
-    [Header("Potion Gauge Info")]
-    public int maxPotionSlots;
-    public List<Effect> activeEffectsList = new List<Effect>();
-    public Dictionary<Property.EProperty,Property> propertyDict = new Dictionary<Property.EProperty, Property>();
-    public Property.EProperty activePropertyForAdjustment;
-    public UnityEvent OnPotionEffectsUpdated;
+    [Header("[DEBUG, READONLY] Potion Gauge Info")]
+    [SerializeField] public List<Effect> activeEffectsList = new List<Effect>();
+    [SerializeField] public Dictionary<Property.EProperty,Property> propertyDict = new Dictionary<Property.EProperty, Property>();
+    [SerializeField] public Property.EProperty activePropertyForAdjustment;
+    [SerializeField] public UnityEvent OnPotionEffectsUpdated;
 
-    [Header("Potion Throwing Related")]
+    [Header("Potion Gauge Settings")]
+    public int maxPotionSlots;
+
+    [Header("Potion Throwing Settings")]
     public float maxThrowHeight;
     public float throwHeightOffest;
     public float maxThrowDistance;
-    private float throwHeight;
-    private float throwDistance;
-    private float Px;
-    private float Py;
-    private float TermVxA;
-    private float TermVxB;
-    private float TermVyA;
-
-    public float launchSpeed;
-    private Vector3 launchDir;
     public GameObject potionPrefab;
 
-    [Header("Potion Effect Parameters")]
-    public float burstBaseMult;
-    public float quickenBaseMult;
-    public float shrinkBaseMult;
+    [Header("[DEBUG, READONLY] Potion Throwing Info")]
+    [SerializeField] private Vector3 launchDir;
+    [SerializeField] private float throwHeight;
+    [SerializeField] private float Px;
+    [SerializeField] private float Py;
+    [SerializeField] private float TermVxA;
+    [SerializeField] private float TermVyA;
 
-    [Header("Potion Property Parameters")]
+
+    [Header("Potion Effect Settings")]
+    public float burstBasePercent;
+    public float burstBaseDuration;
+    public float quickenBasePercent;
+    public float quickenBaseDuration;
+    public float shrinkBasePercent;
+    public float shrinkBaseDuration;
+
+    [Header("Potion Property Settings")]
     public float baseAreaOfEffect; // in units of space (idk what unity calls them)
     public float baseAreaOfEffectPercent;
     public float stepAreaOfEffectPercent;
@@ -111,11 +113,11 @@ public class PotionManager : MonoBehaviour
     public float maxCatalystPercent;
 
     [Header("Line Renderer settings")]
-    public int linePoints;  // Adjust as needed for the desired arc
+    private int linePoints;  // Adjust as needed for the desired arc
     public float timeIntervalInPoints;
     private LineRenderer lineRenderer;
 
-    [Header("For UI Reference")]
+    [Header("[DEBUG, READONLY] UI References")]
     public float AoEPercentage;
     public float CatalystPercentage;
 
@@ -163,19 +165,23 @@ public class PotionManager : MonoBehaviour
 
     public void AddEffect(Effect.EEffect effectToAdd)
     {
-        float value;
+        float percentValue;
+        float duration;
 
         if (effectToAdd == Effect.EEffect.Burst)
         {
-            value = burstBaseMult;
+            percentValue = burstBasePercent;
+            duration = burstBaseDuration;
         }
         else if (effectToAdd == Effect.EEffect.Quicken)
         {
-            value = quickenBaseMult;
+            percentValue = quickenBasePercent;
+            duration = quickenBaseDuration;
         }
         else if (effectToAdd == Effect.EEffect.Shrink)
         {
-            value = shrinkBaseMult;
+            percentValue = shrinkBasePercent;
+            duration = shrinkBaseDuration;
         }
         else
         {
@@ -183,7 +189,7 @@ public class PotionManager : MonoBehaviour
             return;
         }
 
-        Effect newEffect = new Effect(effectToAdd, value);
+        Effect newEffect = new Effect(effectToAdd, percentValue, duration);
 
         activeEffectsList.Add(newEffect);
 
@@ -214,7 +220,7 @@ public class PotionManager : MonoBehaviour
 
         for (int i = 0; i < maxPotionSlots; ++i)
         {
-            activeEffectsList.Add(new Effect(Effect.EEffect.Empty, 0));
+            activeEffectsList.Add(new Effect(Effect.EEffect.Empty, 0, 0));
         }
 
         OnPotionEffectsUpdated?.Invoke();

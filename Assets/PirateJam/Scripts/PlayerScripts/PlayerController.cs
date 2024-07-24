@@ -10,21 +10,18 @@ public class PlayerController : MonoBehaviour
     PlayerControls playerControls;
     private Movement movement;
 
-    [Header("Property and Effect Adjusting")]
-    public PotionManager potionManager;
-    public float adjustmentValue;
-    public Property.EProperty activePropertyToAdjust;
-
-    private float mouseScrollY;
+    [Header("[DEBUG]")]
+    [SerializeField] private PotionManager potionManager;
+    [SerializeField] private float mouseScrollY;
 
 
     private void Awake()
     {
-        potionManager = FindObjectOfType<PotionManager>();
+        potionManager = GetComponentInChildren<PotionManager>();
         playerControls = new PlayerControls();
-
         playerControls.Player.Adjust.performed += x => mouseScrollY = x.ReadValue<float>();
     }
+
     void Start()
     {
         

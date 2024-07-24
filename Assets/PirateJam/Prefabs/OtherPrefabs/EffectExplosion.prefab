@@ -48,8 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d77119422f8cb4cb37aef91eb03797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExplosionForceMulti: 200
-  ExplosionRadius: 1.5
+  BaseExplosionValue: 200
 --- !u!50 &3627865208636719094
 Rigidbody2D:
   serializedVersion: 4

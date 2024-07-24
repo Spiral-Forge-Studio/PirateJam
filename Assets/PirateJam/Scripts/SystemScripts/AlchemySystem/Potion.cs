@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Potion : MonoBehaviour
 {
-    [Header("Potion Settings")]
+    [Header("[DEBUG, READONLY] Potion Info")]
     public GameObject explosionPrefab;
-    public float baseCatalystTime;
     private List<Effect> effectsList;
-
     private float areaOfEffect;
     private float catalyst;
 
@@ -57,23 +55,6 @@ public class Potion : MonoBehaviour
         this.launchDir = launchDir;
         effectsList = _effectsList;
 
-        // handle effects
-        foreach (Effect effect in effectsList)
-        {
-            if (effect.effectEnum == Effect.EEffect.Burst)
-            {
-                burstMultiplier += effect.value;
-            }            
-            else if (effect.effectEnum == Effect.EEffect.Quicken)
-            {
-                quickenMulitplier += effect.value;
-            }
-            else if (effect.effectEnum == Effect.EEffect.Shrink)
-            {
-                shrinkMultiplier += effect.value;
-            }
-        }
-
         // handle properties
         if (_propertyDict.ContainsKey(Property.EProperty.AoE))
         {
@@ -86,11 +67,8 @@ public class Potion : MonoBehaviour
 
         // Calculate the initial velocity required to reach the target
         CalculateLaunchVelocity();
+
         startTimer = true;
-        //if (catalystRoutine == null)
-        //{
-        //    catalystRoutine = StartCoroutine(CatalystTimerRoutine());
-        //}
     }
 
     private void CalculateLaunchVelocity()
@@ -98,30 +76,16 @@ public class Potion : MonoBehaviour
         rb.velocity = launchDir * launchSpeed;
     }
 
-    private IEnumerator CatalystTimerRoutine()
-    {
-        Debug.Log("Catalyst: " + catalyst + ", AoE: " + areaOfEffect);
-
-        yield return new WaitForSeconds(catalyst);
-
-        GameObject instantiatedExplosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
-
-        instantiatedExplosion.GetComponent<EffectExplosion>().ExplosionRadius = areaOfEffect;
-        instantiatedExplosion.GetComponent<EffectExplosion>().ExplosionForceMulti *= burstMultiplier;
-        instantiatedExplosion.GetComponent<EffectExplosion>().Explode();
-
-        Destroy(gameObject);
-    }
-
     private void CatalystTimer()
     {
         if (Time.time - timeAtLaunch > catalyst)
         {
             Debug.Log("Catalyst: " + catalyst + ", AoE: " + areaOfEffect);
+
             GameObject instantiatedExplosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
 
-            instantiatedExplosion.GetComponent<EffectExplosion>().ExplosionRadius = areaOfEffect;
-            instantiatedExplosion.GetComponent<EffectExplosion>().ExplosionForceMulti *= burstMultiplier;
+            instantiatedExplosion.GetComponent<EffectExplosion>().ApplyAreaOfEffectProperty(areaOfEffect) ;
+            instantiatedExplosion.GetComponent<EffectExplosion>().InitializeExplosion(effectsList);
             instantiatedExplosion.GetComponent<EffectExplosion>().Explode();
 
             Destroy(gameObject);
