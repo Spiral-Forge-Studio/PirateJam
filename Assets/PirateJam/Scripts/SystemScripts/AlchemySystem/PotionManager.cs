@@ -28,13 +28,13 @@ public class Effect
 
 public class Property
 {
-    public Property(EProperty propertyEnum, float baseValue, float stepPercent)
-    {
-        this.propertyEnum = propertyEnum;
-        this.baseValue = baseValue;
-        this.stepPercentage = stepPercent;
-        value = baseValue;
-    }
+    public EProperty propertyEnum;
+    public float baseValue;
+    public float basePercent;
+    public float currentPercent;
+    public float stepPercentage;
+    public float maxPercent;
+
 
     public enum EProperty
     {
@@ -43,10 +43,31 @@ public class Property
         None
     }
 
-    public EProperty propertyEnum;
-    public float baseValue;
-    public float value;
-    public float stepPercentage;
+    public Property(EProperty propertyEnum, float baseValue, float basePercent, float stepPercentage, float maxPercent)
+    {
+        this.propertyEnum = propertyEnum;
+        this.baseValue = baseValue;
+        this.basePercent = basePercent;
+        this.stepPercentage = stepPercentage;
+        this.maxPercent = maxPercent;
+        currentPercent = basePercent;
+    }
+
+    public void AdjustProperty(float step)
+    {
+        currentPercent = Mathf.Clamp(currentPercent + stepPercentage * Mathf.Sign(step), 0, maxPercent);
+    }
+
+    public float GetCurrentPercentAsDecimal()
+    {
+        return currentPercent / maxPercent;
+    }
+
+    public float GetFinalValueAsDecimal()
+    {
+        return baseValue*(currentPercent/100);
+    }
+
 }
 
 public class PotionManager : MonoBehaviour
@@ -70,8 +91,6 @@ public class PotionManager : MonoBehaviour
     private float TermVxB;
     private float TermVyA;
 
-
-
     public float launchSpeed;
     private Vector3 launchDir;
     public GameObject potionPrefab;
@@ -82,10 +101,14 @@ public class PotionManager : MonoBehaviour
     public float shrinkBaseMult;
 
     [Header("Potion Property Parameters")]
-    public float baseAreaOfEffect;
-    public float stepPercent_areaOfEffect;
-    public float baseCatalyst;
-    public float stepPercent_catalyst;
+    public float baseAreaOfEffect; // in units of space (idk what unity calls them)
+    public float baseAreaOfEffectPercent;
+    public float stepAreaOfEffectPercent;
+    public float maxAreaOfEffectPercent;
+    public float baseCatalyst; // in seconds
+    public float baseCatalystPercent;
+    public float stepCatalystPercent;
+    public float maxCatalystPercent;
 
     [Header("Line Renderer settings")]
     public int linePoints;  // Adjust as needed for the desired arc
@@ -105,18 +128,31 @@ public class PotionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        propertyDict.Add(Property.EProperty.AoE, new Property(Property.EProperty.AoE, baseAreaOfEffect, stepPercent_areaOfEffect));
-        propertyDict.Add(Property.EProperty.Catalyst, new Property(Property.EProperty.Catalyst, baseCatalyst, stepPercent_catalyst));
+        propertyDict.Add(Property.EProperty.AoE, new Property(
+            Property.EProperty.AoE,
+            baseAreaOfEffect,
+            baseAreaOfEffectPercent, 
+            stepAreaOfEffectPercent, 
+            maxAreaOfEffectPercent));
+
+        propertyDict.Add(Property.EProperty.Catalyst, new Property(
+            Property.EProperty.Catalyst,
+            baseCatalyst,
+            baseCatalystPercent, 
+            stepCatalystPercent, 
+            maxCatalystPercent));
+        
         FlushPotionGauge();
+
         lineRenderer.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        AoEPercentage = propertyDict[Property.EProperty.AoE].value;
-        CatalystPercentage = propertyDict[Property.EProperty.Catalyst].value;
+        // update UI references to property gauges
+        AoEPercentage = propertyDict[Property.EProperty.AoE].GetCurrentPercentAsDecimal();
+        CatalystPercentage = propertyDict[Property.EProperty.Catalyst].GetCurrentPercentAsDecimal();
     }
 
     private void FixedUpdate()
@@ -168,7 +204,7 @@ public class PotionManager : MonoBehaviour
         else
         {
             Property activeProperty = propertyDict[activePropertyForAdjustment];
-            activeProperty.value = Mathf.Clamp(activeProperty.value + activeProperty.stepPercentage*Mathf.Sign(scrollStep),0, 100);
+            activeProperty.AdjustProperty(scrollStep);
         }
     }
 
@@ -208,7 +244,7 @@ public class PotionManager : MonoBehaviour
 
     public void DrawTrajectory()
     {
-        linePoints = Mathf.RoundToInt(100+propertyDict[Property.EProperty.Catalyst].value);
+        linePoints = Mathf.RoundToInt(propertyDict[Property.EProperty.Catalyst].GetFinalValueAsDecimal()*100);
 
         Vector3 origin = transform.position;
         Vector3 startVelocity = 1 * launchDir;

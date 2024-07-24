@@ -75,8 +75,8 @@ public class UIMainScript : MonoBehaviour
 
     public void UpdatePropertyGauge()
     {
-        AoEGauge.fillAmount = potionManager.AoEPercentage / 100;
-        CatalystGauge.fillAmount = potionManager.CatalystPercentage / 100;
+        AoEGauge.fillAmount = potionManager.AoEPercentage;
+        CatalystGauge.fillAmount = potionManager.CatalystPercentage;
     }
 
 }

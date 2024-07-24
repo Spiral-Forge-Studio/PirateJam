@@ -2882,10 +2882,14 @@ MonoBehaviour:
   burstBaseMult: 1.2
   quickenBaseMult: 1
   shrinkBaseMult: 1
-  baseAreaOfEffect: 50
-  stepPercent_areaOfEffect: 5
-  baseCatalyst: 50
-  stepPercent_catalyst: 5
+  baseAreaOfEffect: 1.5
+  baseAreaOfEffectPercent: 50
+  stepAreaOfEffectPercent: 5
+  maxAreaOfEffectPercent: 200
+  baseCatalyst: 1
+  baseCatalystPercent: 50
+  stepCatalystPercent: 5
+  maxCatalystPercent: 200
   linePoints: 150
   timeIntervalInPoints: 0.01
   AoEPercentage: 0

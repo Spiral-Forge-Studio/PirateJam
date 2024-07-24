@@ -8,13 +8,9 @@ public class EffectExplosion : MonoBehaviour
     public float ExplosionForceMulti;
     public float ExplosionRadius;
 
-    private void FixedUpdate()
-    {
-
-    }
-
     public void Explode()
     {
+        transform.localScale = new Vector3(2*ExplosionRadius, 2*ExplosionRadius, 2 * ExplosionRadius);
         inExplosionRadius = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius);
 
         foreach (Collider2D hitObject in inExplosionRadius)
