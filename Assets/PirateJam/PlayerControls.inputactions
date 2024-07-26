@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PauseResume",
+                    "type": "Button",
+                    "id": "7581d236-15a3-42de-aac0-cfc654870c8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -431,6 +440,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "QueueShrinkEffect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "002c017b-dfb0-44e3-9840-43b6c2dcc2a0",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PauseResume",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -134,6 +134,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseResume"",
+                    ""type"": ""Button"",
+                    ""id"": ""7581d236-15a3-42de-aac0-cfc654870c8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -453,6 +462,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""QueueShrinkEffect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""002c017b-dfb0-44e3-9840-43b6c2dcc2a0"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PauseResume"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1052,6 +1072,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_QueueBurstEffect = m_Player.FindAction("QueueBurstEffect", throwIfNotFound: true);
         m_Player_QueueQuickenEffect = m_Player.FindAction("QueueQuickenEffect", throwIfNotFound: true);
         m_Player_QueueShrinkEffect = m_Player.FindAction("QueueShrinkEffect", throwIfNotFound: true);
+        m_Player_PauseResume = m_Player.FindAction("PauseResume", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1137,6 +1158,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_QueueBurstEffect;
     private readonly InputAction m_Player_QueueQuickenEffect;
     private readonly InputAction m_Player_QueueShrinkEffect;
+    private readonly InputAction m_Player_PauseResume;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1153,6 +1175,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @QueueBurstEffect => m_Wrapper.m_Player_QueueBurstEffect;
         public InputAction @QueueQuickenEffect => m_Wrapper.m_Player_QueueQuickenEffect;
         public InputAction @QueueShrinkEffect => m_Wrapper.m_Player_QueueShrinkEffect;
+        public InputAction @PauseResume => m_Wrapper.m_Player_PauseResume;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1198,6 +1221,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @QueueShrinkEffect.started += instance.OnQueueShrinkEffect;
             @QueueShrinkEffect.performed += instance.OnQueueShrinkEffect;
             @QueueShrinkEffect.canceled += instance.OnQueueShrinkEffect;
+            @PauseResume.started += instance.OnPauseResume;
+            @PauseResume.performed += instance.OnPauseResume;
+            @PauseResume.canceled += instance.OnPauseResume;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1238,6 +1264,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @QueueShrinkEffect.started -= instance.OnQueueShrinkEffect;
             @QueueShrinkEffect.performed -= instance.OnQueueShrinkEffect;
             @QueueShrinkEffect.canceled -= instance.OnQueueShrinkEffect;
+            @PauseResume.started -= instance.OnPauseResume;
+            @PauseResume.performed -= instance.OnPauseResume;
+            @PauseResume.canceled -= instance.OnPauseResume;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1432,6 +1461,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnQueueBurstEffect(InputAction.CallbackContext context);
         void OnQueueQuickenEffect(InputAction.CallbackContext context);
         void OnQueueShrinkEffect(InputAction.CallbackContext context);
+        void OnPauseResume(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -65,6 +65,8 @@ public class EffectExplosion : MonoBehaviour
                     {
                         EntityEffectsHandler effectsHandler =  hitObjectRB.GetComponent<EntityEffectsHandler>();
 
+                        Debug.Log("rb: " + hitObject.name);
+
                         ApplyEffects(effectsHandler);
 
                         if (burstPercent > 0)

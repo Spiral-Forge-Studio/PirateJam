@@ -497,7 +497,7 @@ MonoBehaviour:
   fallGravityMultiplier: 4
   maxFallSpeed: 10
   minFallModVelocityY: 0.1
-  coyoteTime: 0.1
+  coyoteTime: 0.2
   jumpBufferTime: 0.2
   hitByExplosion: 0
 --- !u!114 &6933665117834948083
