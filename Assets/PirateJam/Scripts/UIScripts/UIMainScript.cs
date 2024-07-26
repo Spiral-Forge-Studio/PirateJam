@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIMainScript : MonoBehaviour
 {
+    [Header("System/UI References")]
+    public GameStateManager GameStateManager;
+    public GameObject PauseMenu;
+    public GameObject OptionsMenu;
 
     [Header("Alchemy System References")]
     public PotionManager potionManager;
@@ -79,4 +84,22 @@ public class UIMainScript : MonoBehaviour
         CatalystGauge.fillAmount = potionManager.CatalystPercentage;
     }
 
+    public void PauseGame(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            GameStateManager.isPaused = !GameStateManager.isPaused;
+
+            if (GameStateManager.isPaused == true)
+            {
+                PauseMenu.SetActive(true);
+                OptionsMenu.SetActive(false);
+            }
+            else
+            {
+                PauseMenu.SetActive(false);
+                OptionsMenu.SetActive(false);
+            }
+        }
+    }
 }

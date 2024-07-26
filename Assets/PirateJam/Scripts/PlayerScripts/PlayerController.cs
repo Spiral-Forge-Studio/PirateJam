@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         potionManager = GetComponentInChildren<PotionManager>();
+
         playerControls = new PlayerControls();
         playerControls.Player.Adjust.performed += x => mouseScrollY = x.ReadValue<float>();
     }
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region Potion Effects
+    #region -- Potion Effects -- 
     public void QueueBurstEffect(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -69,6 +70,8 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    #region -- Property and Potion Throw --
     public void ToggleAoEProperty(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -114,5 +117,5 @@ public class PlayerController : MonoBehaviour
             potionManager.FlushPotionGauge();
         }
     }
-    
+    #endregion
 }

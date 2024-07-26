@@ -80,7 +80,7 @@ public class Potion : MonoBehaviour
     {
         if (Time.time - timeAtLaunch > catalyst)
         {
-            Debug.Log("Catalyst: " + catalyst + ", AoE: " + areaOfEffect);
+            //Debug.Log("Catalyst: " + catalyst + ", AoE: " + areaOfEffect);
 
             GameObject instantiatedExplosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
 
