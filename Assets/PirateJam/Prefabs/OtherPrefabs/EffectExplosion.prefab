@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BaseExplosionValue: 200
+  explosionSFXPrefab: {fileID: 4147184137538060609, guid: fee8a45af0f012f48a7145e0f37b7adf, type: 3}
 --- !u!50 &3627865208636719094
 Rigidbody2D:
   serializedVersion: 4

@@ -6,6 +6,7 @@ public class EffectExplosion : MonoBehaviour
 {
     [Header("Burst Explosion Settings")]
     public float BaseExplosionValue;
+    public GameObject explosionSFXPrefab;
 
     Collider2D[] inExplosionRadius = null;
     List<Effect> effectsList;
@@ -65,7 +66,7 @@ public class EffectExplosion : MonoBehaviour
                     {
                         EntityEffectsHandler effectsHandler =  hitObjectRB.GetComponent<EntityEffectsHandler>();
 
-                        Debug.Log("rb: " + hitObject.name);
+                        //Debug.Log("rb: " + hitObject.name);
 
                         ApplyEffects(effectsHandler);
 
@@ -84,6 +85,8 @@ public class EffectExplosion : MonoBehaviour
                 }
             }
         }
+
+        Instantiate(explosionSFXPrefab, transform.position, transform.rotation);
 
         Destroy(gameObject, 0.04f);
     }

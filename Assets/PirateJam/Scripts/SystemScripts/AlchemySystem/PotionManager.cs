@@ -250,7 +250,7 @@ public class PotionManager : MonoBehaviour
 
     public void DrawTrajectory()
     {
-        linePoints = Mathf.RoundToInt(propertyDict[Property.EProperty.Catalyst].GetFinalValueAsDecimal()*100);
+        //linePoints = Mathf.RoundToInt(propertyDict[Property.EProperty.Catalyst].GetFinalValueAsDecimal()*100);
 
         Vector3 origin = transform.position;
         Vector3 startVelocity = 1 * launchDir;
@@ -275,7 +275,10 @@ public class PotionManager : MonoBehaviour
         GameObject potionObject = Instantiate(potionPrefab, transform.position, transform.rotation);
         Potion potion = potionObject.GetComponent<Potion>();
 
-        potion.InitializePotion(launchDir, 1, activeEffectsList, propertyDict);
+        List<Effect> initializedEffectsList = new List<Effect>(activeEffectsList);
+        Dictionary<Property.EProperty, Property> initializedPropertyDict = new Dictionary<Property.EProperty, Property>(propertyDict);
+
+        potion.InitializePotion(launchDir, 1, initializedEffectsList, initializedPropertyDict);
 
         //FlushPotionGauge();
     }
