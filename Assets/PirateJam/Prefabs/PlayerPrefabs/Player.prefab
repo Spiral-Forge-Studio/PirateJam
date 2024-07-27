@@ -253,6 +253,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 416efc89-b44a-4248-8d75-5b66880aeba2
     m_ActionName: Player/QueueShrinkEffect[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIMainScript, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7581d236-15a3-42de-aac0-cfc654870c8c
+    m_ActionName: Player/PauseResume[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -356,6 +372,7 @@ GameObject:
   - component: {fileID: 6978926714636787784}
   - component: {fileID: 8719728624515051640}
   - component: {fileID: 6933665117834948083}
+  - component: {fileID: 1698695315856569719}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -514,6 +531,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 0}
   isPlayer: 1
+--- !u!81 &1698695315856569719
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2673059934167582352}
+  m_Enabled: 1
 --- !u!1 &3859259243169084231
 GameObject:
   m_ObjectHideFlags: 0

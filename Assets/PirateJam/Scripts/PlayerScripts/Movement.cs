@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -35,6 +36,14 @@ public class Movement : MonoBehaviour
     public float jumpBufferTime;
     private float jumpBufferCounter;
 
+
+    [Header("Fall Damage")]
+    public float maxFallHeight;
+    private bool isFalling;
+    private bool firstTime;
+    private Vector3 previousPosition;
+    private float highestPosition;
+
     [Header("[DEBUG, READONLY] Explosion Hit Info")]
     public bool hitByExplosion;
 
@@ -42,6 +51,8 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        firstTime = true;
+        isFalling = false;
         hitByExplosion = false;
         hittingWallLeft = false;
         hittingWallRight = false;
@@ -55,6 +66,7 @@ public class Movement : MonoBehaviour
         {
             coyoteTimecounter = coyoteTime;
         }
+
         else
         {
             coyoteTimecounter -= Time.deltaTime;
@@ -64,6 +76,7 @@ public class Movement : MonoBehaviour
         {
             Flip();
         }
+
         else if (isFacingRight && horizontal < 0f)
         {
             Flip();
@@ -73,6 +86,31 @@ public class Movement : MonoBehaviour
     {
         UpdateSpeed();
         AdjustGravity();
+        CheckForFallDamage();
+    }
+
+    private void CheckForFallDamage()
+    {
+        if (!IsGrounded())
+        {
+            if (rb.velocity.y < 0 && firstTime)
+            {
+                firstTime = false;
+                isFalling = true;
+                highestPosition = transform.position.y;
+            }
+            previousPosition = transform.position;
+        }
+
+        if (IsGrounded() && isFalling)
+        {
+            if (highestPosition - transform.position.y > maxFallHeight)
+            {
+                SceneController.instance.ReloadCurrentScene();
+            }
+            isFalling = false;
+            firstTime = true;
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -91,7 +129,14 @@ public class Movement : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        if (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void Flip()
