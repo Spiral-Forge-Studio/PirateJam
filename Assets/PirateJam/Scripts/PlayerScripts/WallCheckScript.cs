@@ -8,9 +8,9 @@ public class WallCheckScript : MonoBehaviour
     public bool wallCheckRight;
     public bool wallCheckLeft;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
 
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Turtle"))
         {
