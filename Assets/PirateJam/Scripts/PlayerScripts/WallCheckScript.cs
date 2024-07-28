@@ -10,7 +10,9 @@ public class WallCheckScript : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        Debug.Log(collision.gameObject.name);
+
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Turtle"))
         {
             if (wallCheckRight)
             {
@@ -20,13 +22,12 @@ public class WallCheckScript : MonoBehaviour
             {
                 movement.hittingWallLeft = true;
             }
-            
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Turtle"))
         {
             if (wallCheckRight)
             {
