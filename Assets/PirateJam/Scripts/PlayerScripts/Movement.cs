@@ -46,11 +46,12 @@ public class Movement : MonoBehaviour
 
     [Header("[DEBUG, READONLY] Explosion Hit Info")]
     public bool hitByExplosion;
-
+    private bool onPlatform;
 
     // Start is called before the first frame update
     void Start()
     {
+        onPlatform = false;
         firstTime = true;
         isFalling = false;
         hitByExplosion = false;
@@ -129,7 +130,7 @@ public class Movement : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer))
+        if (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || onPlatform)
         {
             return true;
         }
@@ -240,6 +241,22 @@ public class Movement : MonoBehaviour
         else
         {
             rb.gravityScale = originalGravityScale;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            onPlatform = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            onPlatform = false;
         }
     }
 
