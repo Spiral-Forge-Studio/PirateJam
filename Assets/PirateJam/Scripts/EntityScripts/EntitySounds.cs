@@ -23,6 +23,11 @@ public class EntitySounds : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        
+    }
+
+    public void PlayHitSound()
+    {
         AudioManager.instance.PlayRandomSFX(sound, sfxDictName);
     }
 }

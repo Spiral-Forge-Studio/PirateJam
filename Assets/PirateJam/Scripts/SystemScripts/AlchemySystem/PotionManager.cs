@@ -70,12 +70,6 @@ public class Property
 
 public class PotionManager : MonoBehaviour
 {
-    [Header("[DEBUG, READONLY] Potion Gauge Info")]
-    [SerializeField] public List<Effect> activeEffectsList = new List<Effect>();
-    [SerializeField] public Dictionary<Property.EProperty,Property> propertyDict = new Dictionary<Property.EProperty, Property>();
-    [SerializeField] public Property.EProperty activePropertyForAdjustment;
-    [SerializeField] public UnityEvent OnPotionEffectsUpdated;
-
     [Header("Potion Gauge Settings")]
     public int maxPotionSlots;
 
@@ -84,15 +78,6 @@ public class PotionManager : MonoBehaviour
     public float throwHeightOffest;
     public float maxThrowDistance;
     public GameObject potionPrefab;
-
-    [Header("[DEBUG, READONLY] Potion Throwing Info")]
-    [SerializeField] private Vector3 launchDir;
-    [SerializeField] private float throwHeight;
-    [SerializeField] private float Px;
-    [SerializeField] private float Py;
-    [SerializeField] private float TermVxA;
-    [SerializeField] private float TermVyA;
-
 
     [Header("Potion Effect Settings")]
     public float burstBasePercent;
@@ -113,14 +98,27 @@ public class PotionManager : MonoBehaviour
     public float maxCatalystPercent;
 
     [Header("Line Renderer settings")]
-    private int linePoints;  // Adjust as needed for the desired arc
+    public int linePoints;  // Adjust as needed for the desired arc
     public float timeIntervalInPoints;
     private LineRenderer lineRenderer;
+
+    [Header("[DEBUG, READONLY] Potion Gauge Info")]
+    [SerializeField] public List<Effect> activeEffectsList = new List<Effect>();
+    [SerializeField] public Dictionary<Property.EProperty, Property> propertyDict = new Dictionary<Property.EProperty, Property>();
+    [SerializeField] public Property.EProperty activePropertyForAdjustment;
+    [SerializeField] public UnityEvent OnPotionEffectsUpdated;
+
+    [Header("[DEBUG, READONLY] Potion Throwing Info")]
+    [SerializeField] private Vector3 launchDir;
+    [SerializeField] private float throwHeight;
+    [SerializeField] private float Px;
+    [SerializeField] private float Py;
+    [SerializeField] private float TermVxA;
+    [SerializeField] private float TermVyA;
 
     [Header("[DEBUG, READONLY] UI References")]
     public float AoEPercentage;
     public float CatalystPercentage;
-
 
     private void Awake()
     {

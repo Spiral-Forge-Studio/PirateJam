@@ -76,6 +76,12 @@ public class EffectExplosion : MonoBehaviour
                             {
                                 hitObjectRB.gameObject.GetComponent<Movement>().hitByExplosion = true;
                             }
+                            else if (hitObjectRB.gameObject.CompareTag("Critter") || hitObjectRB.gameObject.CompareTag("Turtle"))
+                            {
+                                hitObjectRB.gameObject.GetComponent<EntityMovement>().hitByExplosion = true;
+                                hitObjectRB.gameObject.GetComponent<EntitySounds>().PlayHitSound();
+                                hitObjectRB.velocity = Vector2.zero;
+                            }
 
                             float burstForce = BaseExplosionValue * (1+burstPercent/100);
                             hitObjectRB.AddForce(distanceVec.normalized * burstForce);

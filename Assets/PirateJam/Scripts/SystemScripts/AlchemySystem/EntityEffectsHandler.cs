@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntityEffectsHandler : MonoBehaviour
 {
     public Movement movement;
+    public EntityMovement entityMovement;
     // public EntityMovement entityMovement; --Brandon--
     //      - note: reference to your enemy movement script (make movespeed accessible)
 
@@ -40,6 +41,8 @@ public class EntityEffectsHandler : MonoBehaviour
         else
         {
             //originalMoveSpeed = entityMovement.moveSpeed; --Brandon--
+            entityMovement = GetComponent<EntityMovement>();
+            originalMoveSpeed = entityMovement.moveSpeed;
             originalScale = transform.localScale;
         }
 
@@ -70,8 +73,8 @@ public class EntityEffectsHandler : MonoBehaviour
         }
         else
         {
-            //entityMovement.moveSpeed = originalMoveSpeed;             --Brandon--
-            //entityMovement.moveSpeed *= (1+quickenAmountPercent/100); --Brandon--
+            entityMovement.moveSpeed = originalMoveSpeed;
+            entityMovement.moveSpeed *= (1+quickenAmountPercent/100);
         }
 
         underQuickenEffect = true;
@@ -107,7 +110,7 @@ public class EntityEffectsHandler : MonoBehaviour
             }
             else
             {
-                // entityMovement.moveSpeed = originalMoveSpeed; --Brandon--
+                entityMovement.moveSpeed = originalMoveSpeed;
             }
             underQuickenEffect = false;
         }
