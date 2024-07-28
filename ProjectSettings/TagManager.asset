@@ -8,6 +8,7 @@ TagManager:
   - Potion
   - Critter
   - Turtle
+  - Platform
   layers:
   - Default
   - TransparentFX

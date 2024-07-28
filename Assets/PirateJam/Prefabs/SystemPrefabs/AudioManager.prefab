@@ -709,7 +709,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c0de6ab3c528f2b4bb86c94f87e16412, type: 3}
   - {fileID: 8300000, guid: 8a12dd343104e724bb3f0a8740d8b3e6, type: 3}
   - {fileID: 8300000, guid: 7c34882ca969d3b42b3741f5399bca1b, type: 3}
-  TurtleSFX: []
+  TurtleSFX:
+  - {fileID: 8300000, guid: 3ed9d22d5af61a943983ef290b0b5cca, type: 3}
+  - {fileID: 8300000, guid: 6e443c6e7025b2b4a8c4318512de2fbe, type: 3}
+  - {fileID: 8300000, guid: 0770a181a44fc514992df006e6d70562, type: 3}
+  - {fileID: 8300000, guid: 248b00a58a3ef734baad65b85e527e44, type: 3}
+  - {fileID: 8300000, guid: 8d515e0e4f3770e409ea463594da5e37, type: 3}
+  - {fileID: 8300000, guid: 2b8c2569d6f905846ab6be5328db3168, type: 3}
   EntitiesSFX: []
   EnvironmentSFX: []
   PuzzlesSFX: []

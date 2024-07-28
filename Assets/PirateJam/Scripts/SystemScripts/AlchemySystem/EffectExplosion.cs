@@ -66,7 +66,7 @@ public class EffectExplosion : MonoBehaviour
                     {
                         EntityEffectsHandler effectsHandler =  hitObjectRB.GetComponent<EntityEffectsHandler>();
 
-                        //Debug.Log("rb: " + hitObject.name);
+                        Debug.Log("rb: " + hitObject.name);
 
                         ApplyEffects(effectsHandler);
 
