@@ -17,6 +17,9 @@ TagManager:
   - Water
   - UI
   - Ground
+  - Wall
+  - Critter
+  - 
   - Player
   - Platform
   - Turtle
@@ -46,6 +49,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Wall
+    uniqueID: 1425103891
   - name: Ground
     uniqueID: 4144921543
     locked: 0
