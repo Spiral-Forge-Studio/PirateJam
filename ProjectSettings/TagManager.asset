@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
+  - Potion
+  - Critter
+  - Turtle
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -15,6 +20,9 @@ TagManager:
   - Wall
   - Critter
   - 
+  - Player
+  - Platform
+  - Turtle
   - 
   - 
   - 
@@ -43,4 +51,6 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 1425103891
+  - name: Ground
+    uniqueID: 4144921543
     locked: 0
