@@ -284,6 +284,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4883136656666808154}
   - component: {fileID: 1887632692792046627}
+  - component: {fileID: 6026567377567657770}
+  - component: {fileID: 4792080524268063594}
   m_Layer: 7
   m_Name: PlayAnim
   m_TagString: Untagged
@@ -301,8 +303,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.04592434}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4197661421211190169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -347,7 +349,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 1333387746, guid: 7ae5d6419eb59024090d620bee8fa224, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -358,6 +360,40 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6026567377567657770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399344283353194675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e812b339206953c428510e06067aa3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 
+--- !u!95 &4792080524268063594
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399344283353194675}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e3360bfad5d8739468b695773dc8e91e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2673059934167582352
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +409,7 @@ GameObject:
   - component: {fileID: 8719728624515051640}
   - component: {fileID: 6933665117834948083}
   - component: {fileID: 1698695315856569719}
+  - component: {fileID: 1259164431039952702}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -390,7 +427,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.33, z: 0.04592434}
-  m_LocalScale: {x: 0.5, y: 0.73, z: 1.0374999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4883136656666808154}
@@ -433,7 +470,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -444,7 +481,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.64}
   m_EdgeRadius: 0
 --- !u!50 &4343658054064681638
 Rigidbody2D:
@@ -500,22 +537,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4343658054064681638}
+  animator: {fileID: 4792080524268063594}
+  animScript: {fileID: 6026567377567657770}
+  IDLE_ANIM: player_idle
+  RUN_ANIM: player_run
+  AIR_ANIM: player_fall
   groundCheck: {fileID: 1014750421290365752}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   groundCheckRadius: 0.24
-  maxMoveSpeed: 4
+  maxMoveSpeed: 2.5
   accelleration: 20
   flipAccelleration: 30
   hittingWallLeft: 0
   hittingWallRight: 0
   jumpingPower: 7.5
   fallGravityMultiplier: 4
-  maxFallSpeed: 10
+  maxFallSpeed: 8
   minFallModVelocityY: 0.1
   coyoteTime: 0.2
   jumpBufferTime: 0.2
+  maxFallHeight: 10
   hitByExplosion: 0
 --- !u!114 &6933665117834948083
 MonoBehaviour:
@@ -530,6 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 0}
+  entityMovement: {fileID: 0}
   isPlayer: 1
 --- !u!81 &1698695315856569719
 AudioListener:
@@ -539,6 +583,102 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2673059934167582352}
   m_Enabled: 1
+--- !u!82 &1259164431039952702
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2673059934167582352}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3859259243169084231
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +692,7 @@ GameObject:
   - component: {fileID: 3384978194771524448}
   m_Layer: 2
   m_Name: WallcheckR
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -587,7 +727,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 439
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -604,7 +744,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.37, y: 0.03}
+  m_Offset: {x: 0.19, y: -0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -615,7 +755,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.28, y: 0.9}
+  m_Size: {x: 0.16, y: 0.62}
   m_EdgeRadius: 0
 --- !u!114 &3384978194771524448
 MonoBehaviour:
@@ -645,7 +785,7 @@ GameObject:
   - component: {fileID: 2385508445330534789}
   m_Layer: 2
   m_Name: WallcheckL
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -680,7 +820,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 439
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -697,7 +837,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.37, y: 0.03}
+  m_Offset: {x: -0.19, y: -0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -708,7 +848,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.28, y: 0.9}
+  m_Size: {x: 0.16, y: 0.62}
   m_EdgeRadius: 0
 --- !u!114 &2385508445330534789
 MonoBehaviour:
@@ -770,21 +910,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be7087427c7c7c640b185b2f186b834c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activePropertyForAdjustment: 2
-  OnPotionEffectsUpdated:
-    m_PersistentCalls:
-      m_Calls: []
   maxPotionSlots: 3
   maxThrowHeight: 5
   throwHeightOffest: 2
   maxThrowDistance: 8
   potionPrefab: {fileID: 8730198506062690877, guid: 9366beb655398d64bb80eea465896b41, type: 3}
-  launchDir: {x: 0, y: 0, z: 0}
-  throwHeight: 0
-  Px: 0
-  Py: 0
-  TermVxA: 0
-  TermVyA: 0
   burstBasePercent: 50
   burstBaseDuration: 0
   quickenBasePercent: 50
@@ -799,7 +929,18 @@ MonoBehaviour:
   baseCatalystPercent: 50
   stepCatalystPercent: 5
   maxCatalystPercent: 200
+  linePoints: 50
   timeIntervalInPoints: 0.01
+  activePropertyForAdjustment: 2
+  OnPotionEffectsUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  launchDir: {x: 0, y: 0, z: 0}
+  throwHeight: 0
+  Px: 0
+  Py: 0
+  TermVxA: 0
+  TermVyA: 0
   AoEPercentage: 0
   CatalystPercentage: 0
 --- !u!120 &1357115322586703491
@@ -849,26 +990,53 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.020080095
+    widthMultiplier: 0.1531241
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
+        value: 0.73333466
+        inSlope: 0.69269824
+        outSlope: 0.69269824
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.20637019
+      - serializedVersion: 3
+        time: 0.31290346
+        value: 0.8318834
+        inSlope: 0.15388298
+        outSlope: 0.15388298
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.7273962
+        value: 0.6082073
+        inSlope: -1.2870544
+        outSlope: -1.2870544
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.09420295
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 0.6}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 0.07450981}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -884,8 +1052,8 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 36160
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -894,7 +1062,7 @@ LineRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -931,7 +1099,7 @@ Transform:
   m_GameObject: {fileID: 8609149770726978643}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -46,7 +46,6 @@ public class EntityMovement : MonoBehaviour
         //Debug.Log(rb.velocity);
         if (IsGrounded() && !hitByExplosion)
         {
-            explosionRoutineVariable = null;
             PlatformPatrol();
         }
         else
@@ -118,6 +117,7 @@ public class EntityMovement : MonoBehaviour
         yield return new WaitForSeconds(explosionHitResetCD);
 
         hitByExplosion = false;
+        explosionRoutineVariable = null;
     }
 
     private void OnDrawGizmos()

@@ -9,6 +9,13 @@ public class Movement : MonoBehaviour
 {
     public Rigidbody2D rb;
 
+    [Header("Animation")]
+    public Animator animator;
+    public AnimationScript animScript;
+    public string IDLE_ANIM;
+    public string RUN_ANIM;
+    public string AIR_ANIM;
+
     [Header("Ground Check")]
     public Transform groundCheck;
     public LayerMask groundLayer;
@@ -46,17 +53,21 @@ public class Movement : MonoBehaviour
 
     [Header("[DEBUG, READONLY] Explosion Hit Info")]
     public bool hitByExplosion;
-
+    private bool onPlatform;
 
     // Start is called before the first frame update
     void Start()
     {
+        
+        onPlatform = false;
         firstTime = true;
         isFalling = false;
         hitByExplosion = false;
         hittingWallLeft = false;
         hittingWallRight = false;
         originalGravityScale = rb.gravityScale;
+        animScript.ChangeAnimationsState(animator, IDLE_ANIM);
+        
     }
 
     // Update is called once per frame
@@ -72,12 +83,12 @@ public class Movement : MonoBehaviour
             coyoteTimecounter -= Time.deltaTime;
         }
 
-        if (!isFacingRight && horizontal > 0f)
+        if (!isFacingRight && Camera.main.ScreenToWorldPoint(Input.mousePosition).x > transform.position.x)
         {
             Flip();
         }
 
-        else if (isFacingRight && horizontal < 0f)
+        else if (isFacingRight && Camera.main.ScreenToWorldPoint(Input.mousePosition).x < transform.position.x)
         {
             Flip();
         }
@@ -93,6 +104,8 @@ public class Movement : MonoBehaviour
     {
         if (!IsGrounded())
         {
+            animScript.ChangeAnimationsState(animator, AIR_ANIM);
+
             if (rb.velocity.y < 0 && firstTime)
             {
                 firstTime = false;
@@ -104,10 +117,13 @@ public class Movement : MonoBehaviour
 
         if (IsGrounded() && isFalling)
         {
+            animScript.ChangeAnimationsState(animator, IDLE_ANIM);
+
             if (highestPosition - transform.position.y > maxFallHeight)
             {
                 SceneController.instance.ReloadCurrentScene();
             }
+
             isFalling = false;
             firstTime = true;
         }
@@ -129,8 +145,13 @@ public class Movement : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer))
+        if (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || onPlatform)
         {
+            if (rb.velocity.x == 0)
+            {
+                animScript.ChangeAnimationsState(animator, IDLE_ANIM);
+            }
+
             return true;
         }
         else
@@ -182,6 +203,8 @@ public class Movement : MonoBehaviour
         // normal ground movement
         else if (IsGrounded() && horizontal != 0)
         {
+            animScript.ChangeAnimationsState(animator, RUN_ANIM);
+
             if (rb.velocity.x < maxMoveSpeed)
             {
                 if (Mathf.Sign(rb.velocity.x) == Mathf.Sign(horizontal))
@@ -219,6 +242,10 @@ public class Movement : MonoBehaviour
         // freefall movement
         else if (horizontal == 0)
         {
+            if (IsGrounded())
+            {
+                animScript.ChangeAnimationsState(animator, IDLE_ANIM);
+            }
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
         else
@@ -240,6 +267,22 @@ public class Movement : MonoBehaviour
         else
         {
             rb.gravityScale = originalGravityScale;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            onPlatform = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            onPlatform = false;
         }
     }
 
