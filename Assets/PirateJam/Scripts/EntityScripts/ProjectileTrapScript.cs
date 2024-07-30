@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class ProjectileTrapScript : MonoBehaviour
 {
-    [SerializeField] private int maxDistance;
+    [SerializeField] private float maxDistance;
     [SerializeField] private Transform firePoint;
 
     private void Update()
     {
 
-        Vector2 raycastDirection = transform.forward;
-        Physics2D.Raycast(firePoint.position, raycastDirection,maxDistance);
+        Vector3 raycastDirection = transform.right;
+        raycastDirection.x += maxDistance;
 
-        Debug.DrawLine(firePoint.position, raycastDirection, Color.red);
+        Physics2D.Raycast(firePoint.position, raycastDirection, maxDistance);
+
+        Debug.DrawRay(firePoint.position, raycastDirection, Color.red);
     }
 
 
