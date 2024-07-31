@@ -4940,7 +4940,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 0ca2693fdf43ff04eb2af29a69e7ec55, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4983,9 +4983,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.06}
   serializedVersion: 2
-  m_Radius: 0.34
+  m_Radius: 0.13
 --- !u!114 &4240225308763656244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4999,6 +4999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 3104621004120784727, guid: dc8da04c74d2d11428bc47b84335b0a3, type: 3}
+  trailDuration: 0.5
 --- !u!82 &4316793400545597226
 AudioSource:
   m_ObjectHideFlags: 0

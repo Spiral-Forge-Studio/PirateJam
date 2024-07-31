@@ -17,18 +17,17 @@ public class Movement : MonoBehaviour
     public string AIR_ANIM;
 
     [Header("Ground Check")]
-    public Transform groundCheck;
-    public LayerMask groundLayer;
-    public float groundCheckRadius;
+    public bool isGrounded;
 
     [Header("Horizontal Movement")]
     public float maxMoveSpeed;
     public float accelleration;
     public float flipAccelleration;
     private float horizontal;
-    private bool isFacingRight = true;
+    public bool isFacingRight = true;
     public bool hittingWallLeft = false;
     public bool hittingWallRight = false;
+    public bool hittingWall = false;
 
     [Header("Vertical Movement")]
     public float jumpingPower;
@@ -58,7 +57,7 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        isGrounded = false;
         onPlatform = false;
         firstTime = true;
         isFalling = false;
@@ -83,12 +82,12 @@ public class Movement : MonoBehaviour
             coyoteTimecounter -= Time.deltaTime;
         }
 
-        if (!isFacingRight && Camera.main.ScreenToWorldPoint(Input.mousePosition).x > transform.position.x)
+        if (!isFacingRight && horizontal > 0)
         {
             Flip();
         }
 
-        else if (isFacingRight && Camera.main.ScreenToWorldPoint(Input.mousePosition).x < transform.position.x)
+        else if (isFacingRight && horizontal < 0)
         {
             Flip();
         }
@@ -145,12 +144,8 @@ public class Movement : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer) || onPlatform)
+        if (isGrounded)
         {
-            if (rb.velocity.x == 0)
-            {
-                animScript.ChangeAnimationsState(animator, IDLE_ANIM);
-            }
 
             return true;
         }
@@ -163,9 +158,19 @@ public class Movement : MonoBehaviour
     public void Flip()
     {
         isFacingRight = !isFacingRight;
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1f;
-        transform.localScale = localScale;
+
+        if (isFacingRight == true)
+        {
+            transform.rotation = new Quaternion(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+        }
+        else
+        {
+            transform.rotation = new Quaternion(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        }
+         
+        //Vector3 localScale = transform.localScale;
+        //localScale.x *= -1f;
+        //transform.localScale = localScale;
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -175,8 +180,9 @@ public class Movement : MonoBehaviour
 
     public void UpdateSpeed()
     {
+
         // wall movement
-        if (hittingWallLeft)
+        if (hittingWall)
         {
             if (isFacingRight)
             {
@@ -186,19 +192,36 @@ public class Movement : MonoBehaviour
             {
                 rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
             }
+
+            if (isGrounded)
+            {
+                animScript.ChangeAnimationsState(animator, IDLE_ANIM);
+            }
+        }
+
+        //if (hittingWallLeft)
+        //{
+        //    if (isFacingRight)
+        //    {
+        //        rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, -maxMoveSpeed, 0), rb.velocity.y);
+        //    }
+        //    else
+        //    {
+        //        rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
+        //    }
             
-        }
-        else if (hittingWallRight)
-        {
-            if (isFacingRight)
-            {
-                rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, -maxMoveSpeed, 0), rb.velocity.y);
-            }
-            else
-            {
-                rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
-            }
-        }
+        //}
+        //else if (hittingWallRight)
+        //{
+        //    if (isFacingRight)
+        //    {
+        //        rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, -maxMoveSpeed, 0), rb.velocity.y);
+        //    }
+        //    else
+        //    {
+        //        rb.velocity = new Vector2(Mathf.Clamp(horizontal * maxMoveSpeed, 0, maxMoveSpeed), rb.velocity.y);
+        //    }
+        //}
 
         // normal ground movement
         else if (IsGrounded() && horizontal != 0)
@@ -235,7 +258,13 @@ public class Movement : MonoBehaviour
             }
             else
             {
+                if (IsGrounded())
+                {
+                    animScript.ChangeAnimationsState(animator, IDLE_ANIM);
+                }
+
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+
             }
         }
 
@@ -289,7 +318,6 @@ public class Movement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+
     }
 }

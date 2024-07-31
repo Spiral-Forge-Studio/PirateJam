@@ -47,5 +47,5 @@ MonoBehaviour:
   slimeAffectedTilemaps:
   - {fileID: 0}
   slimeTileMap: {fileID: 0}
-  slimeTileBase: {fileID: 11400000, guid: 61ef7e8238737d04e896f2d570a84a6f, type: 2}
-  slimeTileDuration: 5
+  slimeTileBase: {fileID: 11400000, guid: fdb63090179897243bcbf9301d3a9943, type: 2}
+  slimeTileDuration: 2

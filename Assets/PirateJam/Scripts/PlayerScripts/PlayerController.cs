@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         potionManager = GetComponentInChildren<PotionManager>();
+        movement = GetComponent<Movement>();
 
         playerControls = new PlayerControls();
         playerControls.Player.Adjust.performed += x => mouseScrollY = x.ReadValue<float>();

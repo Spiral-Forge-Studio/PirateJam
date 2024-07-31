@@ -15,8 +15,10 @@ public class Potion : MonoBehaviour
     private float shrinkMultiplier;
 
     [Header("Timer settings")]
+    public float trailDuration;
     private float timeAtLaunch;
     private bool startTimer;
+    private bool exploded;
 
     private GameObject effect;
     private Coroutine catalystRoutine;
@@ -32,6 +34,7 @@ public class Potion : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         catalystRoutine = null;
         startTimer = false;
+        exploded = false;
     }
 
     private void Start()
@@ -78,7 +81,7 @@ public class Potion : MonoBehaviour
 
     private void CatalystTimer()
     {
-        if (Time.time - timeAtLaunch > catalyst)
+        if (Time.time - timeAtLaunch > catalyst && !exploded)
         {
             //Debug.Log("Catalyst: " + catalyst + ", AoE: " + areaOfEffect);
 
@@ -88,7 +91,15 @@ public class Potion : MonoBehaviour
             instantiatedExplosion.GetComponent<EffectExplosion>().InitializeExplosion(effectsList);
             instantiatedExplosion.GetComponent<EffectExplosion>().Explode();
 
-            Destroy(gameObject);
+            exploded = true;
+
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<Rigidbody2D>().isKinematic = true;
+            GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            GetComponent<Animator>().enabled = false;
+
+            Destroy(gameObject, trailDuration);
         }
     }
 }
