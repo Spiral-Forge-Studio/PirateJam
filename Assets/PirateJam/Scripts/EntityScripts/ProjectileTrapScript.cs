@@ -21,6 +21,17 @@ public class ProjectileTrapScript : MonoBehaviour
         if (hit)
         {
             Vector3 endPoint = hit.point;
+            Debug.Log("hit" + hit.collider.gameObject.name);
+
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                SceneController.instance.ReloadCurrentScene();
+            }
+            else if (hit.collider.gameObject.CompareTag("Slime"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+
             Debug.DrawRay(firePoint.position, endPoint - firePoint.position, Color.blue);
 
             // Do Damage to slime and 

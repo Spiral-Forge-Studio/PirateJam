@@ -10,9 +10,9 @@ public class LavaScript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("entered lava: " + collision.gameObject.name);
+
         if (collision.gameObject.CompareTag("Player"))
         {
-            Instantiate(lavaDeathSound, collision.ClosestPoint(collision.gameObject.transform.position), Quaternion.identity);
             SceneController.instance.ReloadCurrentScene();
         }
         if (collision.gameObject.CompareTag("Slime"))
