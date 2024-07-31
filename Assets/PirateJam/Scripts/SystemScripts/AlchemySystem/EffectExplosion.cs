@@ -68,25 +68,27 @@ public class EffectExplosion : MonoBehaviour
 
                         Debug.Log("rb: " + hitObject.name);
 
-                        ApplyEffects(effectsHandler);
-
-                        if (burstPercent > 0)
+                        if (effectsHandler != null)
                         {
-                            if (hitObjectRB.gameObject.CompareTag("Player"))
-                            {
-                                hitObjectRB.gameObject.GetComponent<Movement>().hitByExplosion = true;
-                            }
-                            else if (hitObjectRB.gameObject.CompareTag("Critter") || hitObjectRB.gameObject.CompareTag("Turtle"))
-                            {
-                                hitObjectRB.gameObject.GetComponent<EntityMovement>().hitByExplosion = true;
-                                hitObjectRB.gameObject.GetComponent<EntitySounds>().PlayHitSound();
-                                hitObjectRB.velocity = Vector2.zero;
-                            }
+                            ApplyEffects(effectsHandler);
 
-                            float burstForce = BaseExplosionValue * (1+burstPercent/100);
-                            hitObjectRB.AddForce(distanceVec.normalized * burstForce);
+                            if (burstPercent > 0)
+                            {
+                                if (hitObjectRB.gameObject.CompareTag("Player"))
+                                {
+                                    hitObjectRB.gameObject.GetComponent<Movement>().hitByExplosion = true;
+                                }
+                                else if (hitObjectRB.gameObject.CompareTag("Critter") || hitObjectRB.gameObject.CompareTag("Turtle"))
+                                {
+                                    hitObjectRB.gameObject.GetComponent<EntityMovement>().hitByExplosion = true;
+                                    hitObjectRB.gameObject.GetComponent<EntitySounds>().PlayHitSound();
+                                    //hitObjectRB.velocity = Vector2.zero;
+                                }
+
+                                float burstForce = BaseExplosionValue * (1 + burstPercent / 100);
+                                hitObjectRB.AddForce(distanceVec.normalized * burstForce);
+                            }
                         }
-                        
                     }
                 }
             }
