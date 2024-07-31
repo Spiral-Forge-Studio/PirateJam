@@ -47,12 +47,11 @@ public class EntityMovement : MonoBehaviour
         prevPos = transform.position;
 
         //Debug.Log(rb.velocity);
-        if (IsGrounded() && !hitByExplosion)
+        if (IsGrounded())
         {
-            explosionRoutineVariable = null;
             PlatformPatrol();
         }
-        else if (hitByExplosion)
+        if (hitByExplosion)
         {
             if (explosionRoutineVariable == null)
             {
@@ -130,6 +129,8 @@ public class EntityMovement : MonoBehaviour
     private IEnumerator explosionRoutine()
     {
         yield return new WaitForSeconds(explosionHitResetCD);
+
+        explosionRoutineVariable = null;
 
         hitByExplosion = false;
         
