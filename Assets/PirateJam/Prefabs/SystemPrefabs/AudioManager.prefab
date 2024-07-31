@@ -718,6 +718,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2b8c2569d6f905846ab6be5328db3168, type: 3}
   EntitiesSFX: []
   EnvironmentSFX: []
+  LavaSFX:
+  - {fileID: 8300000, guid: 7e1ae8ef37d0feb49872d52a53d94689, type: 3}
+  - {fileID: 8300000, guid: 6b04c84c251a5d548b8f6214fc5af341, type: 3}
+  - {fileID: 8300000, guid: eded71077d8c9694a9b4aa9489ace620, type: 3}
   PuzzlesSFX: []
   buttonSfxList:
   - {fileID: 8300000, guid: 0b12675a3669d04409498eb2b3359e9a, type: 3}

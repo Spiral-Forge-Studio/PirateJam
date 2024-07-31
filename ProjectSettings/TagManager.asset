@@ -9,6 +9,7 @@ TagManager:
   - Critter
   - Turtle
   - Platform
+  - Slime
   layers:
   - Default
   - TransparentFX

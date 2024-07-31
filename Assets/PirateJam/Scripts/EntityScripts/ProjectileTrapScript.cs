@@ -26,7 +26,4 @@ public class ProjectileTrapScript : MonoBehaviour
             // Do Damage to slime and 
         }
     }
-
-
-
 }

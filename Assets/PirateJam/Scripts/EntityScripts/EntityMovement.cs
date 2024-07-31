@@ -51,7 +51,7 @@ public class EntityMovement : MonoBehaviour
         {
             PlatformPatrol();
         }
-        else
+        else if (hitByExplosion)
         {
             if (explosionRoutineVariable == null)
             {
@@ -90,6 +90,8 @@ public class EntityMovement : MonoBehaviour
         }
         else
         {
+            //Debug.Log("4");
+            //Debug.Break();
             rb.velocity = new Vector3(Mathf.Sign(isFacingRightSign) * moveSpeed, rb.velocity.y, 0);
         }
 
