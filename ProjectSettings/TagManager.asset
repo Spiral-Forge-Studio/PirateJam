@@ -9,6 +9,7 @@ TagManager:
   - Critter
   - Turtle
   - Platform
+  - Slime
   layers:
   - Default
   - TransparentFX
@@ -54,4 +55,7 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 4144921543
+    locked: 0
+  - name: Player
+    uniqueID: 3198029171
     locked: 0

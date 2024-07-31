@@ -62,7 +62,7 @@ public class EffectExplosion : MonoBehaviour
 
                 if (ray.collider != null)
                 {
-                    if (distanceVec.magnitude > 0 && !ray.collider.gameObject.CompareTag("Ground"))
+                    if (distanceVec.magnitude > 0 && !ray.collider.gameObject.CompareTag("Ground") && !ray.collider.gameObject.CompareTag("Platform"))
                     {
                         EntityEffectsHandler effectsHandler =  hitObjectRB.GetComponent<EntityEffectsHandler>();
 

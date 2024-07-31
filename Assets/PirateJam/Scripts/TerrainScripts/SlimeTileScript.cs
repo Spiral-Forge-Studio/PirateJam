@@ -13,7 +13,7 @@ public class SlimeTileScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Collider2D>().usedByComposite = true;
+        //GetComponent<Collider2D>().usedByComposite = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

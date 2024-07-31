@@ -27,10 +27,13 @@ public class EntityMovement : MonoBehaviour
     [Header("DEBUG, READONLY")]
     public bool hitByExplosion;
     private Vector3 prevPos;
+    private bool isFacingRight;
+    private float isFacingRightSign;
 
     // Start is called before the first frame update
     void Awake()
     {
+        isFacingRight = true;
         explosionRoutineVariable = null;
         hitByExplosion = false;
         originalLocalScaleMagnitude = transform.localScale.magnitude;
@@ -46,9 +49,10 @@ public class EntityMovement : MonoBehaviour
         //Debug.Log(rb.velocity);
         if (IsGrounded() && !hitByExplosion)
         {
+            explosionRoutineVariable = null;
             PlatformPatrol();
         }
-        else
+        else if (hitByExplosion)
         {
             if (explosionRoutineVariable == null)
             {
@@ -59,9 +63,18 @@ public class EntityMovement : MonoBehaviour
 
     public void Flip()
     {
-        Vector3 scaler = transform.localScale;
-        scaler.x *= -1;
-        transform.localScale = scaler;
+        isFacingRight = !isFacingRight;
+
+        if (isFacingRight == true)
+        {
+            isFacingRightSign = 1;
+            transform.rotation = new Quaternion(transform.rotation.x, 0, transform.rotation.z, transform.rotation.w);
+        }
+        else
+        {
+            isFacingRightSign = -1;
+            transform.rotation = new Quaternion(transform.rotation.x, 180, transform.rotation.z, transform.rotation.w);
+        }
     }
 
     public void PlatformPatrol()
@@ -74,11 +87,13 @@ public class EntityMovement : MonoBehaviour
 
         if (Mathf.Abs(rb.velocity.x) < moveSpeed)
         {
-            rb.AddForce(new Vector2(Mathf.Sign(transform.localScale.x) * moveForce, 0));
+            rb.AddForce(new Vector2(Mathf.Sign(isFacingRightSign) * moveForce, 0));
         }
         else
         {
-            rb.velocity = new Vector3(Mathf.Sign(transform.localScale.x) * moveSpeed, rb.velocity.y, 0);
+            //Debug.Log("4");
+            //Debug.Break();
+            rb.velocity = new Vector3(Mathf.Sign(isFacingRightSign) * moveSpeed, rb.velocity.y, 0);
         }
 
     }
@@ -117,7 +132,7 @@ public class EntityMovement : MonoBehaviour
         yield return new WaitForSeconds(explosionHitResetCD);
 
         hitByExplosion = false;
-        explosionRoutineVariable = null;
+        
     }
 
     private void OnDrawGizmos()

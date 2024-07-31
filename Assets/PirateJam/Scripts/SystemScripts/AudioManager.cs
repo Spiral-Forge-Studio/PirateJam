@@ -28,6 +28,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] TurtleSFX;
     [SerializeField] private AudioClip[] EntitiesSFX;
     [SerializeField] private AudioClip[] EnvironmentSFX;
+    [SerializeField] private AudioClip[] LavaSFX;
     [SerializeField] private AudioClip[] PuzzlesSFX;
 
     [Header("ButtonSFX")]
@@ -68,6 +69,7 @@ public class AudioManager : MonoBehaviour
             { "Slime", SlimeSFX },
             { "Turtle", TurtleSFX },
             { "Environment", EnvironmentSFX },
+            { "Lava", LavaSFX },
             { "Puzzles", PuzzlesSFX }
         };
     }

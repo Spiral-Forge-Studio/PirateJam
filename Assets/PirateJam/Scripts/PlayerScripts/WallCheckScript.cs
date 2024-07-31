@@ -5,8 +5,6 @@ using UnityEngine;
 public class WallCheckScript : MonoBehaviour
 {
     public Movement movement;
-    public bool wallCheckRight;
-    public bool wallCheckLeft;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -14,14 +12,7 @@ public class WallCheckScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Turtle"))
         {
-            if (wallCheckRight)
-            {
-                movement.hittingWallRight = true;
-            }
-            else
-            {
-                movement.hittingWallLeft = true;
-            }
+            movement.hittingWall = true;
         }
     }
 
@@ -29,14 +20,7 @@ public class WallCheckScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Turtle"))
         {
-            if (wallCheckRight)
-            {
-                movement.hittingWallRight = false;
-            }
-            else
-            {
-                movement.hittingWallLeft = false;
-            }
+            movement.hittingWall = false;
         }
     }
 }

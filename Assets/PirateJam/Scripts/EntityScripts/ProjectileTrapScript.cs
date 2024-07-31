@@ -4,18 +4,37 @@ using UnityEngine;
 
 public class ProjectileTrapScript : MonoBehaviour
 {
-    [SerializeField] private int maxDistance;
+    [SerializeField] private float maxDistance;
     [SerializeField] private Transform firePoint;
 
     private void Update()
     {
+        //if statement for door opening and closing
 
-        Vector2 raycastDirection = transform.forward;
-        Physics2D.Raycast(firePoint.position, raycastDirection,maxDistance);
+        Vector3 raycastDirection = transform.right;
+        raycastDirection.x += maxDistance;
 
-        Debug.DrawLine(firePoint.position, raycastDirection, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, raycastDirection, maxDistance);
+
+        Debug.DrawRay(firePoint.position, raycastDirection, Color.red);
+
+        if (hit)
+        {
+            Vector3 endPoint = hit.point;
+            Debug.Log("hit" + hit.collider.gameObject.name);
+
+            if (hit.collider.gameObject.CompareTag("Player"))
+            {
+                SceneController.instance.ReloadCurrentScene();
+            }
+            else if (hit.collider.gameObject.CompareTag("Slime"))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+
+            Debug.DrawRay(firePoint.position, endPoint - firePoint.position, Color.blue);
+
+            // Do Damage to slime and 
+        }
     }
-
-
-
 }

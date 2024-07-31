@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 public class SlimeTiles
 {
     public Dictionary<Vector3Int, bool> slimeTilesGridDict = new Dictionary<Vector3Int, bool>();
+    public Dictionary<Vector3Int, Coroutine> slimeTilesRoutineDict = new Dictionary<Vector3Int, Coroutine>();
 
     public bool isActive;
     public Tilemap slimeTileMap;
@@ -69,24 +70,27 @@ public class MapManager : MonoBehaviour
                 if (!slimeTiles.slimeTilesGridDict.ContainsKey(gridPosition))
                 {
                     slimeTiles.slimeTilesGridDict.Add(gridPosition, slimeTiles.isActive);
+                    slimeTiles.slimeTilesRoutineDict.Add(gridPosition, null);
 
                 }
 
                 slimeTiles.originalTileBase = slimeAffectedTilemap.GetTile(gridPosition);
                 slimeTileMap.SetTile(gridPosition, slimeTiles.slimeTileBase);
-                slimeAffectedTilemap.SetTile(gridPosition, null);
+                //slimeAffectedTilemap.SetTile(gridPosition, null);
                 slimeTiles.slimeTilesGridDict[gridPosition] = true;
-                StartCoroutine(RevertTileAfterDuration(
-                    slimeTiles, slimeAffectedTilemap, gridPosition, slimeTileDuration));
-                //if (slimeTiles.slimeTilesGridDict[gridPosition] == false)
-                //{
-                //    slimeTiles.originalTileBase = slimeAffectedTilemap.GetTile(gridPosition);
-                //    slimeTileMap.SetTile(gridPosition, slimeTiles.slimeTileBase);
-                //    slimeAffectedTilemap.SetTile(gridPosition, null);
-                //    slimeTiles.slimeTilesGridDict[gridPosition] = true;
-                //    StartCoroutine(RevertTileAfterDuration(
-                //        slimeTiles, slimeAffectedTilemap, gridPosition, slimeTileDuration));
-                //}
+
+                if (slimeTiles.slimeTilesRoutineDict[gridPosition] == null)
+                {
+                    slimeTiles.slimeTilesRoutineDict[gridPosition] =
+                        StartCoroutine(RevertTileAfterDuration(slimeTiles, slimeAffectedTilemap, gridPosition, slimeTileDuration));
+                }
+                else
+                {
+                    StopCoroutine(slimeTiles.slimeTilesRoutineDict[gridPosition]);
+                    slimeTiles.slimeTilesRoutineDict[gridPosition] =
+                        StartCoroutine(RevertTileAfterDuration(slimeTiles, slimeAffectedTilemap, gridPosition, slimeTileDuration));
+                }
+                
             }
         }
     }
@@ -97,6 +101,6 @@ public class MapManager : MonoBehaviour
 
         slimeTileMap.SetTile(gridPosition, null);
         slimeTiles.slimeTilesGridDict[gridPosition] = false;
-        tilemap.SetTile(gridPosition, slimeTiles.originalTileBase);
+        //tilemap.SetTile(gridPosition, slimeTiles.originalTileBase);
     }
 }
