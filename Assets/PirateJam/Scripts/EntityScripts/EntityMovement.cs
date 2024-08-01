@@ -47,7 +47,7 @@ public class EntityMovement : MonoBehaviour
         prevPos = transform.position;
 
         //Debug.Log(rb.velocity);
-        if (IsGrounded())
+        if (IsGrounded() && !hitByExplosion)
         {
             PlatformPatrol();
         }

@@ -696,7 +696,9 @@ MonoBehaviour:
   Puzzles: {fileID: 979586058069573366}
   audioSource: {fileID: 2765210180792417581}
   musicSource: {fileID: 3795155487920039384}
-  musicList: []
+  musicList:
+  - {fileID: 8300000, guid: 9fd0086e9b6097543b05017d4c53697e, type: 3}
+  - {fileID: 8300000, guid: f4f9405970eec7649810091e730bcbc0, type: 3}
   PlayerSFX: []
   PotionExplosionSFX:
   - {fileID: 8300000, guid: 85223700770db9d48900032f7373d3fa, type: 3}

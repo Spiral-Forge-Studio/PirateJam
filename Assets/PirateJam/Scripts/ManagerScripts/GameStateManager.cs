@@ -11,6 +11,7 @@ public class GameStateManager : MonoBehaviour
     {
         isPaused = false;
         Application.targetFrameRate = 60;
+        AudioManager.instance.PlayMusic(0);
     }
 
     // Update is called once per frame

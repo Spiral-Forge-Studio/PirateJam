@@ -158,7 +158,16 @@ public class PotionManager : MonoBehaviour
     private void FixedUpdate()
     {
         launchDir = CalculateThrowVelocity();
-        DrawTrajectory();
+
+        if (activePropertyForAdjustment != Property.EProperty.None)
+        {
+            lineRenderer.enabled = true;
+            DrawTrajectory();
+        }
+        else
+        {
+            lineRenderer.enabled = false;
+        }
     }
 
     public void AddEffect(Effect.EEffect effectToAdd)
@@ -248,7 +257,7 @@ public class PotionManager : MonoBehaviour
 
     public void DrawTrajectory()
     {
-        //linePoints = Mathf.RoundToInt(propertyDict[Property.EProperty.Catalyst].GetFinalValueAsDecimal()*100);
+        linePoints = Mathf.RoundToInt(propertyDict[Property.EProperty.Catalyst].GetFinalValueAsDecimal()*100);
 
         Vector3 origin = transform.position;
         Vector3 startVelocity = 1 * launchDir;

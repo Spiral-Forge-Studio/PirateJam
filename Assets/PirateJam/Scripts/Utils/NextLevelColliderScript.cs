@@ -8,7 +8,7 @@ public class NextLevelColliderScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SceneController.instance.LoadNextScene();
+            SceneController.instance.LoadPreviousScene();
         }
     }
 }
