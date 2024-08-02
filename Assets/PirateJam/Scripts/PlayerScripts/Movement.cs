@@ -53,10 +53,12 @@ public class Movement : MonoBehaviour
     [Header("[DEBUG, READONLY] Explosion Hit Info")]
     public bool hitByExplosion;
     private bool onPlatform;
+    public bool takeFallDamage;
 
     // Start is called before the first frame update
     void Start()
     {
+        takeFallDamage = true;
         isGrounded = false;
         onPlatform = false;
         firstTime = true;
@@ -109,7 +111,10 @@ public class Movement : MonoBehaviour
             {
                 firstTime = false;
                 isFalling = true;
+                
                 highestPosition = transform.position.y;
+                //Debug.Break();
+                //Debug.Log("highest pos: " + highestPosition);
             }
             previousPosition = transform.position;
         }
@@ -118,7 +123,7 @@ public class Movement : MonoBehaviour
         {
             animScript.ChangeAnimationsState(animator, IDLE_ANIM);
 
-            if (highestPosition - transform.position.y > maxFallHeight)
+            if (highestPosition - transform.position.y > maxFallHeight && takeFallDamage)
             {
                 SceneController.instance.ReloadCurrentScene();
             }
@@ -146,7 +151,6 @@ public class Movement : MonoBehaviour
     {
         if (isGrounded)
         {
-
             return true;
         }
         else

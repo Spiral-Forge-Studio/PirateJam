@@ -17,6 +17,24 @@ public class GroundCheckScript : MonoBehaviour
         if (movement != null)
         {
             movement.isGrounded = true;
+
+            if (collision.gameObject.name == "SlimeTiles")
+            {
+                movement.takeFallDamage = false;
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (movement != null)
+        {
+            movement.isGrounded = true;
+
+            if (collision.gameObject.name == "SlimeTiles")
+            {
+                movement.takeFallDamage = false;
+            }
         }
     }
 
@@ -25,6 +43,11 @@ public class GroundCheckScript : MonoBehaviour
         if (movement != null)
         {
             movement.isGrounded = false;
+        }
+
+        if (collision.gameObject.name == "SlimeTiles")
+        {
+            movement.takeFallDamage = true;
         }
     }
 }
